@@ -10,6 +10,10 @@ Tip Calculator
 
 import math
 
+def line():
+    #print a long line to divide section
+    print("----------------------------------------------------------------------------------------------------")
+
 def saving_time(deposit: float, goal: float, monthly: bool):
     """
     Get amount of deposit in float
@@ -100,7 +104,8 @@ def main():
             continue
         else:
             break
-    
+
+    line()
     match choice:
         case 1:
             print("This is Amount of time to save for a goal based on a weekly or monthly deposit Calculator")
@@ -125,7 +130,10 @@ def main():
                     continue
             
             days = saving_time(deposit, goal, monthly)
+
+            line()
             print(f"You need {days} days to save up for ${goal} depositing {deposit} each time")
+            line()
 
         case 2:
             print("This is Compound Interest Calculator")
@@ -134,7 +142,7 @@ def main():
                 try:
                     balance = float(input("Enter your current balance: "))
                     rate = float(input("Enter the interest rate: "))
-                    time_per_year = int (input("Enter How many time your money is compound each year"))
+                    time_per_year = int (input("Enter How many time your money is compound each year: "))
                     year = int(input("Enter how many year your blance will compound: "))
                 except ValueError:
                     print("Plese type in valid input!")
@@ -142,7 +150,10 @@ def main():
                 break
 
             compounded_balance = compound(balance, rate, year, time_per_year)
+
+            line()
             print(f"After {year} years, you will have ${compounded_balance} in your balance")
+            line()
 
         case 3:
             print("This is Budget Allocator")
@@ -156,9 +167,13 @@ def main():
                 break
 
             budget = allocate(income)
+
+            line()
             print("This is your allocation with\n20% to saving\n30% to entertainment\n50% to food")
+            line()
             for type in budget.keys():
                 print(f"{type}: ${budget[type]}")
+            line()
 
         case 4:
             print("This is Sale Price Calculator")
@@ -173,7 +188,10 @@ def main():
                 break
             
             new_price = sale_price(price, sale_percentage)
+
+            line()
             print(f"After apply {sale_percentage}% discount to ${price} item it now discounted to ${new_price}!")
+            line()
 
         case 5:
             print("This is Tip Calculator")
@@ -188,7 +206,10 @@ def main():
                 break
 
             tip_price = tip(price, tip_percentage)
+
+            line()
             print(f"You have to pay ${tip_price} in tip!")
+            line()
 
 if __name__ == "__main__":
     main()
