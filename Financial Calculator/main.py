@@ -83,133 +83,144 @@ def tip(price: float, tip_percentage: float):
 
 def main():
 
-    instruction = """Choose the following calculator to calculate your financial
-1. Amount of time to save for a goal based on a weekly or monthly deposit Calculator
-2. Compound Interest Calculator 
-3. Budget Allocator 
-4. Sale Price Calculator 
-5. Tip Calculator"""
-
-    print(instruction)
-
     while True:
-        try:
-            choice = int(input("Type in number in integer to use Calculator: "))
-        except ValueError:
-            print("Please type in integer")
-            continue
-        
-        if choice not in range(1,6):
-            print("Please type in number between 1-5")
+        instruction = """Choose the following calculator to calculate your financial
+    1. Amount of time to save for a goal based on a weekly or monthly deposit Calculator
+    2. Compound Interest Calculator 
+    3. Budget Allocator 
+    4. Sale Price Calculator 
+    5. Tip Calculator"""
+
+        print(instruction)
+
+        while True:
+            try:
+                choice = int(input("Type in number in integer to use Calculator: "))
+            except ValueError:
+                print("Please type in integer")
+                continue
+            
+            if choice not in range(1,6):
+                print("Please type in number between 1-5")
+                continue
+            else:
+                break
+
+        line()
+        match choice:
+            case 1:
+                print("This is Amount of time to save for a goal based on a weekly or monthly deposit Calculator")
+
+                while True:
+                    try:
+                        deposit = float(input("Enter How much money you are going to deposit each time: "))
+                        goal = float(input("Enter the amount of money you set as a goal: "))
+                        decision = input("Weekly deposit or monthly deposit? (Type weekly or monthly): ")
+                    except ValueError:
+                        print("Plese type in valid input!")
+                        continue
+
+                    if decision == "weekly":
+                        monthly = False
+                        break
+                    elif decision == "monthly":
+                        monthly = True
+                        break
+                    else:
+                        print("type in either weekly or monthly!")
+                        continue
+                
+                days = saving_time(deposit, goal, monthly)
+
+                line()
+                print(f"You need {days} days to save up for ${goal:.2f} depositing ${deposit:.2f} each time")
+                line()
+
+            case 2:
+                print("This is Compound Interest Calculator")
+
+                while True:
+                    try:
+                        balance = float(input("Enter your current balance: "))
+                        rate = float(input("Enter the interest rate: "))
+                        time_per_year = int (input("Enter How many time your money is compound each year: "))
+                        year = int(input("Enter how many year your blance will compound: "))
+                    except ValueError:
+                        print("Plese type in valid input!")
+                        continue
+                    break
+
+                compounded_balance = compound(balance, rate, year, time_per_year)
+
+                line()
+                print(f"After {year} years, you will have ${compounded_balance:.2f} in your balance")
+                line()
+
+            case 3:
+                print("This is Budget Allocator")
+
+                while True:
+                    try:
+                        income = float(input("Enter your current income: "))
+                    except ValueError:
+                        print("Plese type in valid input!")
+                        continue
+                    break
+
+                budget = allocate(income)
+
+                line()
+                print("This is your allocation with\n20% to saving\n30% to entertainment\n50% to food")
+                line()
+                for type in budget.keys():
+                    print(f"{type}: ${budget[type]:.2f}")
+                line()
+
+            case 4:
+                print("This is Sale Price Calculator")
+
+                while True:
+                    try:
+                        price = float(input("Enter how much item cost: "))
+                        sale_percentage = float(input("Enter how much your item is discount by %: "))
+                    except ValueError:
+                        print("Plese type in valid input!")
+                        continue
+                    break
+                
+                new_price = sale_price(price, sale_percentage)
+
+                line()
+                print(f"After apply {sale_percentage}% discount to ${price:.2f} item it now discounted to ${new_price:.2f}!")
+                line()
+
+            case 5:
+                print("This is Tip Calculator")
+
+                while True:
+                    try:
+                        price = float(input("Enter how much services cost: "))
+                        tip_percentage = float(input("Enter how much you want to tip by %: "))
+                    except ValueError:
+                        print("Plese type in valid input!")
+                        continue
+                    break
+
+                tip_price = tip(price, tip_percentage)
+
+                line()
+                print(f"You have to pay ${tip_price:.2f} in tip!")
+                line()
+
+        print("If you wish to continue using press 1\n or press any key to exit")
+        line()
+
+        cont = input(">>> ")
+        if cont == '1':
             continue
         else:
+            print("Thank you for using!")
             break
-
-    line()
-    match choice:
-        case 1:
-            print("This is Amount of time to save for a goal based on a weekly or monthly deposit Calculator")
-
-            while True:
-                try:
-                    deposit = float(input("Enter How much money you are going to deposit each time: "))
-                    goal = float(input("Enter the amount of money you set as a goal: "))
-                    decision = input("Weekly deposit or monthly deposit? (Type weekly or monthly): ")
-                except ValueError:
-                    print("Plese type in valid input!")
-                    continue
-
-                if decision == "weekly":
-                    monthly = False
-                    break
-                elif decision == "monthly":
-                    monthly = True
-                    break
-                else:
-                    print("type in either weekly or monthly!")
-                    continue
-            
-            days = saving_time(deposit, goal, monthly)
-
-            line()
-            print(f"You need {days} days to save up for ${goal} depositing {deposit} each time")
-            line()
-
-        case 2:
-            print("This is Compound Interest Calculator")
-
-            while True:
-                try:
-                    balance = float(input("Enter your current balance: "))
-                    rate = float(input("Enter the interest rate: "))
-                    time_per_year = int (input("Enter How many time your money is compound each year: "))
-                    year = int(input("Enter how many year your blance will compound: "))
-                except ValueError:
-                    print("Plese type in valid input!")
-                    continue
-                break
-
-            compounded_balance = compound(balance, rate, year, time_per_year)
-
-            line()
-            print(f"After {year} years, you will have ${compounded_balance} in your balance")
-            line()
-
-        case 3:
-            print("This is Budget Allocator")
-
-            while True:
-                try:
-                    income = float(input("Enter your current income: "))
-                except ValueError:
-                    print("Plese type in valid input!")
-                    continue
-                break
-
-            budget = allocate(income)
-
-            line()
-            print("This is your allocation with\n20% to saving\n30% to entertainment\n50% to food")
-            line()
-            for type in budget.keys():
-                print(f"{type}: ${budget[type]}")
-            line()
-
-        case 4:
-            print("This is Sale Price Calculator")
-
-            while True:
-                try:
-                    price = float(input("Enter how much item cost: "))
-                    sale_percentage = float(input("Enter how much your item is discount by %: "))
-                except ValueError:
-                    print("Plese type in valid input!")
-                    continue
-                break
-            
-            new_price = sale_price(price, sale_percentage)
-
-            line()
-            print(f"After apply {sale_percentage}% discount to ${price} item it now discounted to ${new_price}!")
-            line()
-
-        case 5:
-            print("This is Tip Calculator")
-
-            while True:
-                try:
-                    price = float(input("Enter how much services cost: "))
-                    tip_percentage = float(input("Enter how much you want to tip by %: "))
-                except ValueError:
-                    print("Plese type in valid input!")
-                    continue
-                break
-
-            tip_price = tip(price, tip_percentage)
-
-            line()
-            print(f"You have to pay ${tip_price} in tip!")
-            line()
 
 if __name__ == "__main__":
     main()
