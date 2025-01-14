@@ -14,19 +14,35 @@ Have at least 2 people test your code before submission!
 """
 
 def display(libary: list):
-    pass
+    for (index, music_dict) in enumerate(libary):
+        print(f"{index+1}")
+        for (type, value) in (music_dict.keys(), music_dict.values()):
+            print(f"")
 
-def add_items(libary: list, Title: str, Author: str, category: str):
+def add_items(libary: list, title: str, author: str):
     """
     
     """
-    libary.append(dict())
+    libary.append(dict(Title=title, Author=author))
 
-def search(libary: list):
-    pass
+def search(libary: list, type: str, key: str):
+    """
+    
+    """
+    for music_dict in libary:
+        for music in music_dict[type]:
+            if key in music:
+                return music_dict
 
-def remove_items(libary: list):
-    pass
+    print("We don't find what you are looking for")
+    return False
+
+def remove_items(libary: list, index: int):
+    """
+    
+    """
+    libary.pop(index)
+    print(f"You remove {index} index book")
 
 def main():
 
