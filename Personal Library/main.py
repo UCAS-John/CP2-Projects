@@ -15,22 +15,20 @@ Have at least 2 people test your code before submission!
 
 def display(libary: list):
     for (index, music_dict) in enumerate(libary):
-        print(f"{index+1}")
-        for (type, value) in (music_dict.keys(), music_dict.values()):
-            print(f"")
+        print(f"{index+1} | Title : {music_dict[0]}\n   | Author : {music_dict[1]}")
 
 def add_items(libary: list, title: str, author: str):
     """
     
     """
-    libary.append(dict(Title=title, Author=author))
+    libary.append(tuple(title, author))
 
-def search(libary: list, type: str, key: str):
+def search(libary: list, key: str):
     """
     
     """
     for music_dict in libary:
-        for music in music_dict[type]:
+        for music in music_dict.values():
             if key in music:
                 return music_dict
 
@@ -41,7 +39,11 @@ def remove_items(libary: list, index: int):
     """
     
     """
-    libary.pop(index)
+    try:
+        libary.remove(index)
+    except KeyError:
+        print("You remove non existance music")
+
     print(f"You remove {index} index book")
 
 def main():
@@ -66,9 +68,21 @@ def main():
 
         match action:
             case 1: 
+
                 display(libary)
+
             case 2:
-                pass
+
+                while True:
+                    try:
+                        key = input("Serach >>> ")
+                    except ValueError:
+                        print("Please enter a keyword")
+                        continue
+                    break
+
+                search(libary, key)
+
             case 3:
                 pass
             case 4:
