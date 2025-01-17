@@ -13,12 +13,10 @@ Good use of white space to keep items separate and easy to read/find
 Have at least 2 people test your code before submission!
 """
 
-# Personal Library Catalog Program
+# Define the library as a list of tuples 
+# Each tuple contains (title, author)
 
-# Define the library as a set of tuples to store items
-# Each tuple contains (title, creator)
-
-library = {("Pride and Prejudice", "Jane Austen"),
+library = [("Pride and Prejudice", "Jane Austen"),
     ("To Kill a Mockingbird", "Harper Lee"),
     ("The Great Gatsby", "F. Scott Fitzgerald"),
     ("One Hundred Years of Solitude", "Gabriel Garcia Marquez"),
@@ -136,27 +134,27 @@ library = {("Pride and Prejudice", "Jane Austen"),
     ("Les Misérables", "Victor Hugo"),
     ("The Old Man and the Sea", "Ernest Hemingway"),
     ("A Tale of Two Cities", "Charles Dickens"),
-    ("Gulliver's Travels", "Jonathan Swift")}
+    ("Gulliver's Travels", "Jonathan Swift")]
 
-#Function to add a new item to the library catalog
+# Function to add a new item to the library catalog
 def add_item():
     """
-    Prompts the user for item details (title, creator) and adds it to the catalog.
+    Prompts the user for item details (title, author) and adds it to the catalog.
     Ensures no duplicate items are added.
     """
     print("\nAdd a New Item")
-    title = input("Enter the title: ").strip()
-    creator = input("Enter the author/artist/director: ").strip()
+    title = input("Enter the title\n>>> ").strip()
+    author = input("Enter the author\n>>> ").strip()
     
     # Create a tuple for the new item
-    item = (title, creator)
+    item = (title, author)
     
-    # Attempt to add the new item to the catalog
+    # Add the new item to the catalog
     if item in library:
-        print(f"\nItem '{title}' by '{creator}' already exists in the catalog.\n")
+        print(f"\nItem '{title}' by '{author}' already exists in the catalog.\n")
     else:
-        library.add(item)
-        print(f"\nItem '{title}' by '{creator}' added successfully!\n")
+        library.append(item)
+        print(f"\nItem '{title}' by '{author}' added successfully!\n")
 
 #Function to display all items in the library catalog
 def display_items():
@@ -164,43 +162,78 @@ def display_items():
     print("\nLibrary Catalog Contents:")
     if not library:
         print("The library catalog is empty.\n")
+
     else:
-        for index, (title, creator) in enumerate(library, start=1):
-            print(f"{index}. Title: {title}, Author/Artist/Director: {creator}")
+        for index, (title, author) in enumerate(library):
+            print(f"{index+1}. Title: {title}, Author: {author}")
     print()
 
-#Function to search for an item in the catalog by title or creator
+#Function to search for an item in the catalog by title or author
 def search_item():
 
     print("\nSearch for an Item")
-    query = input("Enter the title or author/artist/director to search for: ").strip().lower()
-    matches = [(title, creator) for title, creator in library
-               if query in title.lower() or query in creator.lower()]
+    query = input("Enter the title or author to search for: ").strip().lower()
+    
+    # store (title, author) in matches if it matches book in library
+    matches = [(title, author) for title, author in library
+               if query in title.lower() or query in author.lower()]
 
     if matches:
         print("\nSearch Results:")
-        for index, (title, creator) in enumerate(matches, start=1):
-            print(f"{index}. Title: {title}, Author/Artist/Director: {creator}")
+        for index, (title, author) in enumerate(matches):
+            print(f"{index+1}. Title: {title}, Author: {author}")
     else:
         print("\nNo matches found.\n")
 
 def remove_item():
     """
-    Function to remove an item from the catalog by title and creator.
-    Prompts the user for the title and creator, and removes the matching item.
+    Function to remove an item from the catalog by title and author.
+    Prompts the user for the title and author, and removes the matching item.
     """
+    while True:
+        print("\nRemove an Item\n1. Using Index\n 2.Using Title and Author name")
+        try:
+            choice = int(input(">>> "))
+        except ValueError:
+            print("Please enter number between 1-2")
+            continue
+        if choice not in [1,2]:
+            print("Please enter number between 1-2")
+        else:
+            break
+
+    match choice:
+        # Remove book using index
+        case 1:
+            while True:
+                try:
+                    index_to_remove = int(input("Enter the index of the book\n>>> "))
+                except ValueError:
+                    print("Please enter an integer")
+                    continue
+                if index_to_remove+1 > len(library) or index_to_remove+1 < len(library):
+                    print("Your index is not in range!")
+                    continue
+                else:
+                    break
+
+            for (title_to_remove, author_to_remove) in library[index_to_remove]:
+                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
+
+            library.pop(index_to_remove)
+
+        # Remove book using title and author
+        case 2:
+            title_to_remove = input("Enter the title of the item to remove\n>>> ").strip()
+            author_to_remove = input("Enter the author of the item to remove\n>>> ").strip()
     
-    print("\nRemove an Item")
-    title_to_remove = input("Enter the title of the item to remove: ").strip()
-    creator_to_remove = input("Enter the author/artist/director of the item to remove: ").strip()
-    
-    item_to_remove = (title_to_remove, creator_to_remove)
-    
-    if item_to_remove in library:
-        library.remove(item_to_remove)
-        print(f"\nItem '{title_to_remove}' by '{creator_to_remove}' removed successfully!\n")
-    else:
-        print(f"\nItem '{title_to_remove}' by '{creator_to_remove}' not found in the catalog.\n")
+            item_to_remove = (title_to_remove, author_to_remove)
+            
+            if item_to_remove in library:
+                library.remove(item_to_remove)
+                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
+            else:
+                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the catalog.\n")
 
 def main():
     """
@@ -217,13 +250,13 @@ def main():
         
         while True:
             try:
-                choice = int(input("\nEnter your choice (1-5): ")).strip()
+                choice = int(input("\nEnter your choice (1-5)\n>>> "))
             except ValueError:
-                print("Enter a number between 1-5")
+                print("Please enter a number between 1-5")
                 continue
 
             if choice not in range(1,6):
-                print("Enter number between 1-5")
+                print("Please enter number between 1-5")
                 continue
             else:
                 break
