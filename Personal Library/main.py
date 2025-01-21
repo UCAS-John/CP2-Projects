@@ -159,50 +159,17 @@ def remove_item():
     Function to remove an item from the catalog by title and author.
     Prompts the user for the title and author, and removes the matching item.
     """
-    while True:
-        print("\nRemove an Item\n1. Using Index\n 2.Using Title and Author name")
-        try:
-            choice = int(input(">>> "))
-        except ValueError:
-            print("Please enter number between 1-2")
-            continue
-        if choice not in [1,2]:
-            print("Please enter number between 1-2")
-        else:
-            break
 
-    match choice:
-        # Remove book using index
-        case 1:
-            while True:
-                try:
-                    index_to_remove = int(input("Enter the index of the book\n>>> "))
-                except ValueError:
-                    print("Please enter an integer")
-                    continue
-                if index_to_remove+1 > len(library) or index_to_remove+1 < len(library):
-                    print("Your index is not in range!")
-                    continue
-                else:
-                    break
-
-            for (title_to_remove, author_to_remove) in library[index_to_remove]:
-                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
-
-            library.pop(index_to_remove)
-
-        # Remove book using title and author
-        case 2:
-            title_to_remove = input("Enter the title of the item to remove\n>>> ").strip()
-            author_to_remove = input("Enter the author of the item to remove\n>>> ").strip()
+    title_to_remove = input("Enter the title of the item to remove\n>>> ").strip()
+    author_to_remove = input("Enter the author of the item to remove\n>>> ").strip()
     
-            item_to_remove = (title_to_remove, author_to_remove)
+    item_to_remove = (title_to_remove, author_to_remove)
             
-            if item_to_remove in library:
-                library.remove(item_to_remove)
-                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
-            else:
-                print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the catalog.\n")
+    if item_to_remove in library:
+        library.remove(item_to_remove)
+        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
+    else:
+        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the catalog.\n")
 
 def main():
     """
