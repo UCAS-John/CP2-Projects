@@ -169,7 +169,7 @@ def remove_item():
         library.remove(item_to_remove)
         print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
     else:
-        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the catalog.\n")
+        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the library\n")
 
 def main():
     """
