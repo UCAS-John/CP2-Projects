@@ -162,7 +162,7 @@ def main():
             print(f">>> {password}")
 
         # Check if user want to continue genrating password
-        choice = input("continue generatine password?\nPress 'n' to stop\n>>> ") 
+        choice = input("\ncontinue generatine password?\nPress 'n' to stop\n>>> ") 
         if choice == 'n':
             break
         else:
