@@ -14,6 +14,7 @@
 import string
 import random
 
+# Add lowercase alphabet to random_char if user agree
 def lower_case(random_char):
 
     while True:
@@ -36,6 +37,7 @@ def lower_case(random_char):
 
     return random_char
 
+# Add uppercase alphabet to random_char if user agree
 def upper_case(random_char):
 
     while True:
@@ -58,6 +60,7 @@ def upper_case(random_char):
 
     return random_char
 
+# Add number to random_char if user agree
 def digit(random_char):
 
     while True:
@@ -76,10 +79,11 @@ def digit(random_char):
     if choice == 'n':
         return random_char
         
-    random_char += string.digits
+    random_char += string.digits 
 
     return random_char
 
+# Add special character to random_char if user agree
 def special_char(random_char):
 
     while True:
@@ -102,6 +106,7 @@ def special_char(random_char):
 
     return random_char
 
+# Generate 4 passwords using random charcter in random_char with specific length
 def generate_password(length: int, random_char):
 
     passwords = []
@@ -122,6 +127,7 @@ def main():
 
         random_char = ""
 
+        # Loop ask user for length of the password
         while True:
             try:
                 length = int(input("Specify the length of your passowrd\n>>> "))
@@ -135,10 +141,11 @@ def main():
                 break
         
         random_char = lower_case(random_char)
-        random_char = upper_case(random_char)
+        random_char = upper_case(random_char)   
         random_char = digit(random_char)
         random_char = special_char(random_char)
 
+        # Check if there is no character in random_char
         if not random_char:
             print("\nPlease select something!!!\n")
             choice = input("continue generatine password?\nPress 'n' to stop\n>>> ")
@@ -147,19 +154,19 @@ def main():
             else:
                 continue
 
-        passwords = generate_password(length, random_char)
+        passwords = generate_password(length, random_char) # Genrate 4 password 
 
+        # Print genrated password
         print("\nYour genrated password are")
         for password in passwords:
             print(f">>> {password}")
 
-        choice = input("continue generatine password?\nPress 'n' to stop\n>>> ")
-
+        # Check if user want to continue genrating password
+        choice = input("continue generatine password?\nPress 'n' to stop\n>>> ") 
         if choice == 'n':
             break
         else:
             continue
-
 
 if __name__ == "__main__":
     main()
