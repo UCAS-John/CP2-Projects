@@ -16,94 +16,59 @@ Have at least 2 people test your code before submission!
 # Define the library as a list of tuples 
 # Each tuple contains (title, author)
 
-library = [ ("Pride and Prejudice", "Jane Austen"),
-            ("To Kill a Mockingbird", "Harper Lee"),
-            ("The Great Gatsby", "F. Scott Fitzgerald"),
-            ("One Hundred Years of Solitude", "Gabriel Garcia Marquez"),
-            ("Moby Dick", "Herman Melville"),
-            ("War and Peace", "Leo Tolstoy"),
-            ("The Odyssey", "Homer"),
-            ("Ulysses", "James Joyce"),
-            ("Madame Bovary", "Gustave Flaubert"),
-            ("The Divine Comedy", "Dante Alighieri"),
-            ("Hamlet", "William Shakespeare"),
-            ("The Catcher in the Rye", "J.D. Salinger"),
-            ("The Brothers Karamazov", "Fyodor Dostoevsky"),
-            ("Crime and Punishment", "Fyodor Dostoevsky"),
-            ("Wuthering Heights", "Emily Brontë"),
-            ("Jane Eyre", "Charlotte Brontë"),
-            ("The Iliad", "Homer"),
-            ("1984", "George Orwell"),
-            ("The Adventures of Huckleberry Finn", "Mark Twain"),
-            ("Anna Karenina", "Leo Tolstoy"),
-            ("Alice's Adventures in Wonderland", "Lewis Carroll"),
-            ("The Sound and the Fury", "William Faulkner"),
-            ("Great Expectations", "Charles Dickens"),
-            ("Catch-22", "Joseph Heller"),
-            ("The Grapes of Wrath", "John Steinbeck"),
-            ("Invisible Man", "Ralph Ellison"),
-            ("Don Quixote", "Miguel de Cervantes"),
-            ("Beloved", "Toni Morrison"),
-            ("Mrs. Dalloway", "Virginia Woolf"),
-            ("The Scarlet Letter", "Nathaniel Hawthorne"),
-            ("Brave New World", "Aldous Huxley"),
-            ("The Sun Also Rises", "Ernest Hemingway"),
-            ("Slaughterhouse-Five", "Kurt Vonnegut"),
-            ("Lolita", "Vladimir Nabokov"),
-            ("Middlemarch", "George Eliot"),
-            ("The Picture of Dorian Gray", "Oscar Wilde"),
-            ("Frankenstein", "Mary Shelley"),
-            ("The Count of Monte Cristo", "Alexandre Dumas"),
-            ("Les Misérables", "Victor Hugo"),
-            ("The Hobbit", "J.R.R. Tolkien"),
-            ("Fahrenheit 451", "Ray Bradbury"),
-            ("The Stranger", "Albert Camus"),
-            ("Heart of Darkness", "Joseph Conrad"),
-            ("The Old Man and the Sea", "Ernest Hemingway"),
-            ("A Tale of Two Cities", "Charles Dickens"),
-            ("Gulliver's Travels", "Jonathan Swift"),
-            ("The Trial", "Franz Kafka"),
-            ("The Red Badge of Courage", "Stephen Crane"),
-            ("The Secret Garden", "Frances Hodgson Burnett"),
-            ("The Jungle", "Upton Sinclair"),
-            ("The Call of the Wild", "Jack London"),
-            ("The Metamorphosis", "Franz Kafka"),
-            ("The Idiot", "Fyodor Dostoevsky"),
-            ("The Master and Margarita", "Mikhail Bulgakov"),
-            ("The Three Musketeers", "Alexandre Dumas"),
-            ("Dracula", "Bram Stoker"),
-            ("The Lord of the Rings", "J.R.R. Tolkien"),
-            ("Rebecca", "Daphne du Maurier"),
-            ("Gone with the Wind", "Margaret Mitchell"),
-            ("The Little Prince", "Antoine de Saint-Exupéry"),
-            ("The Bell Jar", "Sylvia Plath"),
-            ("The Kite Runner", "Khaled Hosseini"),
-            ("Life of Pi", "Yann Martel"),
-            ("The Book Thief", "Markus Zusak"),
-            ("The Road", "Cormac McCarthy"),
-            ("The Alchemist", "Paulo Coelho"),
-            ("The Handmaid's Tale", "Margaret Atwood"),
-            ("The Hitchhiker's Guide to the Galaxy", "Douglas Adams"),
-            ("The Shining", "Stephen King"),
-            ("The Da Vinci Code", "Dan Brown"),
-            ("The Girl with the Dragon Tattoo", "Stieg Larsson"),
-            ("The Hunger Games", "Suzanne Collins"),
-            ("Harry Potter and the Sorcerer's Stone", "J.K. Rowling"),
-            ("The Fault in Our Stars", "John Green"),
-            ("The Help", "Kathryn Stockett"),
-            ("The Lovely Bones", "Alice Sebold"),
-            ("The Time Traveler's Wife", "Audrey Niffenegger"),
-            ("The Secret Life of Bees", "Sue Monk Kidd"),
-            ("The Curious Incident of the Dog in the Night-Time", "Mark Haddon"),
-            ("The Perks of Being a Wallflower", "Stephen Chbosky"),
-            ("The Giver", "Lois Lowry"),
-            ("The Outsiders", "S.E. Hinton"),
-            ("The Maze Runner", "James Dashner"),
-            ("Divergent", "Veronica Roth"),
-            ("Twilight", "Stephenie Meyer"),
-            ("The Chronicles of Narnia", "C.S. Lewis"),
-            ("Pride and Prejudice", "Jane Austen"),
-            ("Gulliver's Travels", "Jonathan Swift")]
+library = [
+    {"title": "To Kill a Mockingbird", "author": "Harper Lee", "publication_date": "1960", "genre": "Fiction"},
+    {"title": "1984", "author": "George Orwell", "publication_date": "1949", "genre": "Dystopian, Political Fiction"},
+    {"title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "publication_date": "1925", "genre": "Fiction, Tragedy"},
+    {"title": "Moby-Dick", "author": "Herman Melville", "publication_date": "1851", "genre": "Adventure, Fiction"},
+    {"title": "War and Peace", "author": "Leo Tolstoy", "publication_date": "1869", "genre": "Historical Fiction"},
+    {"title": "Pride and Prejudice", "author": "Jane Austen", "publication_date": "1813", "genre": "Romance, Fiction"},
+    {"title": "The Catcher in the Rye", "author": "J.D. Salinger", "publication_date": "1951", "genre": "Fiction, Coming-of-Age"},
+    {"title": "The Lord of the Rings", "author": "J.R.R. Tolkien", "publication_date": "1954", "genre": "Fantasy"},
+    {"title": "The Odyssey", "author": "Homer", "publication_date": "8th Century BC", "genre": "Epic Poetry"},
+    {"title": "The Hobbit", "author": "J.R.R. Tolkien", "publication_date": "1937", "genre": "Fantasy"},
+    {"title": "Frankenstein", "author": "Mary Shelley", "publication_date": "1818", "genre": "Gothic Fiction, Horror"},
+    {"title": "The Brothers Karamazov", "author": "Fyodor Dostoevsky", "publication_date": "1880", "genre": "Philosophical Fiction"},
+    {"title": "Brave New World", "author": "Aldous Huxley", "publication_date": "1932", "genre": "Dystopian, Science Fiction"},
+    {"title": "The Scarlet Letter", "author": "Nathaniel Hawthorne", "publication_date": "1850", "genre": "Historical Fiction"},
+    {"title": "Crime and Punishment", "author": "Fyodor Dostoevsky", "publication_date": "1866", "genre": "Psychological Fiction"},
+    {"title": "Anna Karenina", "author": "Leo Tolstoy", "publication_date": "1877", "genre": "Literary Fiction, Romance"},
+    {"title": "Don Quixote", "author": "Miguel de Cervantes", "publication_date": "1605", "genre": "Literary Fiction, Satire"},
+    {"title": "The Picture of Dorian Gray", "author": "Oscar Wilde", "publication_date": "1890", "genre": "Gothic Fiction"},
+    {"title": "Jane Eyre", "author": "Charlotte Brontë", "publication_date": "1847", "genre": "Romance, Gothic Fiction"},
+    {"title": "Wuthering Heights", "author": "Emily Brontë", "publication_date": "1847", "genre": "Gothic Fiction, Romance"},
+    {"title": "Les Misérables", "author": "Victor Hugo", "publication_date": "1862", "genre": "Historical Fiction"},
+    {"title": "The Divine Comedy", "author": "Dante Alighieri", "publication_date": "1320", "genre": "Epic Poetry"},
+    {"title": "Dracula", "author": "Bram Stoker", "publication_date": "1897", "genre": "Gothic Horror"},
+    {"title": "The Shining", "author": "Stephen King", "publication_date": "1977", "genre": "Horror"},
+    {"title": "Fahrenheit 451", "author": "Ray Bradbury", "publication_date": "1953", "genre": "Dystopian, Science Fiction"},
+    {"title": "Slaughterhouse-Five", "author": "Kurt Vonnegut", "publication_date": "1969", "genre": "Science Fiction, Satire"},
+    {"title": "The Handmaid's Tale", "author": "Margaret Atwood", "publication_date": "1985", "genre": "Dystopian, Feminist Fiction"},
+    {"title": "The Hunger Games", "author": "Suzanne Collins", "publication_date": "2008", "genre": "Dystopian, Science Fiction"},
+    {"title": "The Fault in Our Stars", "author": "John Green", "publication_date": "2012", "genre": "Young Adult, Romance"},
+    {"title": "The Maze Runner", "author": "James Dashner", "publication_date": "2009", "genre": "Dystopian, Science Fiction"},
+    {"title": "Harry Potter and the Sorcerer's Stone", "author": "J.K. Rowling", "publication_date": "1997", "genre": "Fantasy, Young Adult"},
+    {"title": "The Girl on the Train", "author": "Paula Hawkins", "publication_date": "2015", "genre": "Thriller, Mystery"},
+    {"title": "Gone Girl", "author": "Gillian Flynn", "publication_date": "2012", "genre": "Thriller, Mystery"},
+    {"title": "The Da Vinci Code", "author": "Dan Brown", "publication_date": "2003", "genre": "Thriller, Mystery"},
+    {"title": "The Alchemist", "author": "Paulo Coelho", "publication_date": "1988", "genre": "Fiction, Philosophical"},
+    {"title": "Sapiens: A Brief History of Humankind", "author": "Yuval Noah Harari", "publication_date": "2011", "genre": "Non-fiction, History"},
+    {"title": "The Power of Habit", "author": "Charles Duhigg", "publication_date": "2012", "genre": "Non-fiction, Self-help"},
+    {"title": "Educated", "author": "Tara Westover", "publication_date": "2018", "genre": "Memoir"},
+    {"title": "Becoming", "author": "Michelle Obama", "publication_date": "2018", "genre": "Memoir"},
+    {"title": "The Art of War", "author": "Sun Tzu", "publication_date": "5th Century BC", "genre": "Philosophy, Military Strategy"},
+    {"title": "Thinking, Fast and Slow", "author": "Daniel Kahneman", "publication_date": "2011", "genre": "Non-fiction, Psychology"},
+    {"title": "Outliers", "author": "Malcolm Gladwell", "publication_date": "2008", "genre": "Non-fiction, Sociology"},
+    {"title": "The Immortal Life of Henrietta Lacks", "author": "Rebecca Skloot", "publication_date": "2010", "genre": "Biography, Science"},
+    {"title": "Quiet: The Power of Introverts in a World That Can't Stop Talking", "author": "Susan Cain", "publication_date": "2012", "genre": "Non-fiction, Psychology"},
+    {"title": "The 7 Habits of Highly Effective People", "author": "Stephen R. Covey", "publication_date": "1989", "genre": "Self-help, Non-fiction"},
+    {"title": "Atomic Habits", "author": "James Clear", "publication_date": "2018", "genre": "Self-help, Non-fiction"},
+    {"title": "The Subtle Art of Not Giving a F*ck", "author": "Mark Manson", "publication_date": "2016", "genre": "Self-help, Non-fiction"},
+    {"title": "Rich Dad Poor Dad", "author": "Robert T. Kiyosaki", "publication_date": "1997", "genre": "Personal Finance, Non-fiction"},
+    {"title": "The Road", "author": "Cormac McCarthy", "publication_date": "2006", "genre": "Post-apocalyptic, Fiction"},
+    {"title": "The Catcher in the Rye", "author": "J.D. Salinger", "publication_date": "1951", "genre": "Fiction, Coming-of-Age"},
+    {"title": "The Chronicles of Narnia", "author": "C.S. Lewis", "publication_date": "1950", "genre": "Fantasy, Children's Literature"}
+]
 
 # Function to add a new item to the library catalog
 def add_item():
@@ -114,9 +79,14 @@ def add_item():
     print("\nAdd a New Item")
     title = input("Enter the title\n>>> ").strip()
     author = input("Enter the author\n>>> ").strip()
+    date = input("Enter the first publication date\n>> ").strip()
+    genre = input("Enter the genre\n>>> ")
     
     # Create a tuple for the new item
-    item = (title, author)
+    item = {"title": title,
+            "author": author,
+            "publication_date": date,
+            "genre": genre}
     
     # Add the new item to the catalog
     if item in library:
@@ -133,8 +103,8 @@ def display_items():
         print("The library catalog is empty.\n")
 
     else:
-        for index, (title, author) in enumerate(library):
-            print(f"{index+1}. Title: {title}, Author: {author}")
+        for index, book in enumerate(library):
+            print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}\n   Publication date: {book["publication_date"]}\n   Genre: {book["genre"]}")
     print()
 
 #Function to search for an item in the catalog by title or author
@@ -162,14 +132,17 @@ def remove_item():
 
     title_to_remove = input("Enter the title of the item to remove\n>>> ").strip()
     author_to_remove = input("Enter the author of the item to remove\n>>> ").strip()
-    
-    item_to_remove = (title_to_remove, author_to_remove)
-            
-    if item_to_remove in library:
-        library.remove(item_to_remove)
-        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
-    else:
+    index = 0
+
+    for i, book in enumerate(library):
+        if book["title"] == title_to_remove and book["author"] == author_to_remove:
+                index = i+1
+    if not index:
         print(f"\nItem '{title_to_remove}' by '{author_to_remove}' not found in the library\n")
+    else:
+        library.remove(library[index-1])
+        print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
+
 
 def main():
     """
@@ -183,32 +156,24 @@ def main():
         print("3. Search for an Item")
         print("4. Remove an Item")
         print("5. Exit")
-        
-        while True:
-            try:
-                choice = int(input("\nEnter your choice (1-5)\n>>> "))
-            except ValueError:
-                print("Please enter a number between 1-5")
-                continue
 
-            if choice not in range(1,6):
-                print("Please enter number between 1-5")
-                continue
-            else:
-                break
+        choice = input("\nEnter your choice (1-5)\n>>> ")
         
         match choice:
-            case 1:
+            case '1':
                 add_item()
-            case 2:
+            case '2':
                 display_items()
-            case 3:
+            case '3':
                 search_item()
-            case 4:
+            case '4':
                 remove_item()
-            case 5:
+            case '5':
                 print("\nExiting the program. Goodbye!\n")
                 break
+            case _:
+                print("Please Enter number between 1-5")
+                continue
 
 if __name__ == "__main__":
     main()
