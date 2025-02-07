@@ -80,7 +80,7 @@ def add_item():
     title = input("Enter the title\n>>> ").strip()
     author = input("Enter the author\n>>> ").strip()
     date = input("Enter the first publication date\n>> ").strip()
-    genre = input("Enter the genre\n>>> ")
+    genre = input("Enter the genre\n>>> ").strip()
     
     # Create a tuple for the new item
     item = {"title": title,
@@ -182,6 +182,7 @@ def search_item():
                 print("Invalid Choice")
                 continue
 
+# Function to remove book
 def remove_item():
     """
     Function to remove an item from the catalog by title and author.
@@ -201,6 +202,51 @@ def remove_item():
         library.remove(library[index-1])
         print(f"\nItem '{title_to_remove}' by '{author_to_remove}' removed successfully!\n")
 
+# Function to modify each item in book
+def modify():
+
+    display_items(False)
+    print("\nSelect item to modify using index")
+
+    while True:
+        try:
+            index = int(input(">>> "))
+        except ValueError:
+            print("Enter Integer!")
+            continue
+        
+        index -= 1
+
+        if index not in range(len(library)):
+            print("Invalid index")
+            continue
+        else:
+            print(f"\nModifying {library[index]["title"]}")
+            print("Select which item to modify")
+            print("1) Title\n2) Author\n3) Publication date\n4) Genre")
+            item = input(">>> ")
+            match item:
+                # Title
+                case '1':
+                    new_title = input("Enter new title\n>>> ").strip()
+                    library[index]["title"] = new_title
+                    print(f"Successfully change title to {new_title}")
+                # Author
+                case '2':
+                    new_author = input("Enter new author\n>>> ").strip()
+                    library[index]["author"] = new_author
+                    print(f"Successfully change title to {new_author}")
+                # Publication date
+                case '3':
+                    new_date = input("Enter new publication date\n>>> ").strip()
+                    library[index]["title"] = new_date
+                    print(f"Successfully change title to {new_date}")
+                # Genre
+                case '4':
+                    new_genre = input("Enter new genre\n>>> ").strip()
+                    library[index]["title"] = new_genre
+                    print(f"Successfully change title to {new_genre}")
+            break
 
 def main():
     """
@@ -209,11 +255,12 @@ def main():
     """
     while True:
         print("\nPersonal Library Catalog")
-        print("1. Add a New Item")
-        print("2. Display All Items")
-        print("3. Search for an Item")
-        print("4. Remove an Item")
-        print("5. Exit")
+        print("1) Add a New Item")
+        print("2) Display All Items")
+        print("3) Search for an Item")
+        print("4) Remove an Item")
+        print("5) Modify specific book")
+        print("6) Exit")
 
         choice = input("\nEnter your choice (1-5)\n>>> ")
         
@@ -231,6 +278,8 @@ def main():
             case '4':
                 remove_item()
             case '5':
+                modify()
+            case '6':
                 print("\nExiting the program. Goodbye!\n")
                 break
             case _:
