@@ -96,9 +96,18 @@ def add_item():
         print(f"\nItem '{title}' by '{author}' added successfully!\n")
 
 #Function to display all items in the library catalog
-def display_items(books = {}):
+def display_items(simple: bool, books = {}):
 
-    if not books: # If no specific book to display
+    if simple:
+        print("\nLibrary Catalog Contents:")
+        if not library:
+            print("The library catalog is empty.\n")
+
+        else:
+            for index, book in enumerate(library):
+                print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}")
+        print()
+    elif not books: # If no specific book to display
         print("\nLibrary Catalog Contents:")
         if not library:
             print("The library catalog is empty.\n")
@@ -132,7 +141,7 @@ def search_item():
                         if query in book["title"].lower()]
                 if matches:
                     print("\nSearch Results:")
-                    display_items(matches)
+                    display_items(False, matches)
                 else:
                     print("\nNo matches found.\n")
                 break
@@ -143,7 +152,7 @@ def search_item():
                         if query in book["author"].lower()]
                 if matches:
                     print("\nSearch Results:")
-                    display_items(matches)
+                    display_items(False, matches)
                 else:
                     print("\nNo matches found.\n")
                 break
@@ -154,7 +163,7 @@ def search_item():
                         if query in book["publication_date"].lower()]
                 if matches:
                     print("\nSearch Results:")
-                    display_items(matches)
+                    display_items(False, matches)
                 else:
                     print("\nNo matches found.\n")
                 break
@@ -165,7 +174,7 @@ def search_item():
                         if query in book["genre"].lower()]
                 if matches:
                     print("\nSearch Results:")
-                    display_items(matches)
+                    display_items(False, matches)
                 else:
                     print("\nNo matches found.\n")
                 break
@@ -212,7 +221,11 @@ def main():
             case '1':
                 add_item()
             case '2':
-                display_items()
+                simple = input("Do you want simple list (y/n)")
+                if simple == 'y':
+                    display_items(True)
+                else:
+                    display_items(False)
             case '3':
                 search_item()
             case '4':
