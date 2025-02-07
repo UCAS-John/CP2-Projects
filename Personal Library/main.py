@@ -98,7 +98,7 @@ def add_item():
 #Function to display all items in the library catalog
 def display_items(books = {}):
 
-    if not books:
+    if not books: # If no specific book to display
         print("\nLibrary Catalog Contents:")
         if not library:
             print("The library catalog is empty.\n")
@@ -107,7 +107,7 @@ def display_items(books = {}):
             for index, book in enumerate(library):
                 print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}\n   Publication date: {book["publication_date"]}\n   Genre: {book["genre"]}")
         print()
-    else:
+    else: # IF there is specific book to display
         if not library:
             print("The library catalog is empty.\n")
         else:
@@ -124,8 +124,10 @@ def search_item():
         choice = input(">>> ")
 
         match choice:
+            # Search using Title
             case '1':
                 query = input("Search >>> ").strip().lower()
+                # Match query to each of the book
                 matches = [book for book in library
                         if query in book["title"].lower()]
                 if matches:
@@ -134,6 +136,7 @@ def search_item():
                 else:
                     print("\nNo matches found.\n")
                 break
+            # Search using Author
             case '2':
                 query = input("Search >>> ").strip().lower()
                 matches = [book for book in library
@@ -144,6 +147,7 @@ def search_item():
                 else:
                     print("\nNo matches found.\n")
                 break
+            # Search using Publication date
             case '3':
                 query = input("Search >>> ").strip().lower()
                 matches = [book for book in library
@@ -154,6 +158,7 @@ def search_item():
                 else:
                     print("\nNo matches found.\n")
                 break
+            # Search using Genre
             case '4':
                 query = input("Search >>> ").strip().lower()
                 matches = [book for book in library
