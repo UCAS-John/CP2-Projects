@@ -96,33 +96,77 @@ def add_item():
         print(f"\nItem '{title}' by '{author}' added successfully!\n")
 
 #Function to display all items in the library catalog
-def display_items():
+def display_items(books = {}):
 
-    print("\nLibrary Catalog Contents:")
-    if not library:
-        print("The library catalog is empty.\n")
+    if not books:
+        print("\nLibrary Catalog Contents:")
+        if not library:
+            print("The library catalog is empty.\n")
 
+        else:
+            for index, book in enumerate(library):
+                print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}\n   Publication date: {book["publication_date"]}\n   Genre: {book["genre"]}")
+        print()
     else:
-        for index, book in enumerate(library):
-            print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}\n   Publication date: {book["publication_date"]}\n   Genre: {book["genre"]}")
-    print()
+        if not library:
+            print("The library catalog is empty.\n")
+        else:
+            for index, book in enumerate(books):
+                print(f"{index+1}. Title: {book["title"]}\n   Author: {book["author"]}\n   Publication date: {book["publication_date"]}\n   Genre: {book["genre"]}")
+        print()       
 
 #Function to search for an item in the catalog by title or author
 def search_item():
 
-    print("\nSearch for an Item")
-    query = input("Enter the title or author to search for: ").strip().lower()
-    
-    # store (title, author) in matches if it matches book in library
-    matches = [(title, author) for title, author in library
-               if query in title.lower() or query in author.lower()]
+    while True:
 
-    if matches:
-        print("\nSearch Results:")
-        for index, (title, author) in enumerate(matches):
-            print(f"{index+1}. Title: {title}, Author: {author}")
-    else:
-        print("\nNo matches found.\n")
+        print("Search using\n1) Title\n2) Author\n3) Publication date\n4) Genre")
+        choice = input(">>> ")
+
+        match choice:
+            case '1':
+                query = input("Search >>> ").strip().lower()
+                matches = [book for book in library
+                        if query in book["title"].lower()]
+                if matches:
+                    print("\nSearch Results:")
+                    display_items(matches)
+                else:
+                    print("\nNo matches found.\n")
+                break
+            case '2':
+                query = input("Search >>> ").strip().lower()
+                matches = [book for book in library
+                        if query in book["author"].lower()]
+                if matches:
+                    print("\nSearch Results:")
+                    display_items(matches)
+                else:
+                    print("\nNo matches found.\n")
+                break
+            case '3':
+                query = input("Search >>> ").strip().lower()
+                matches = [book for book in library
+                        if query in book["publication_date"].lower()]
+                if matches:
+                    print("\nSearch Results:")
+                    display_items(matches)
+                else:
+                    print("\nNo matches found.\n")
+                break
+            case '4':
+                query = input("Search >>> ").strip().lower()
+                matches = [book for book in library
+                        if query in book["genre"].lower()]
+                if matches:
+                    print("\nSearch Results:")
+                    display_items(matches)
+                else:
+                    print("\nNo matches found.\n")
+                break
+            case _:
+                print("Invalid Choice")
+                continue
 
 def remove_item():
     """
