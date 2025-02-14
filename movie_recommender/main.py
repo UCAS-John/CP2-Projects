@@ -95,7 +95,7 @@ def main():
             # Check for Invalid Choice
             case _:
                 print("Error: Invalid choice")
-                return
+                continue
 
 if __name__ == "__main__":
     main()
