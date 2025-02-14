@@ -1,100 +1,86 @@
-import csv 
-import pandas as pd
-class FileCSV:
-    def __init__(self, file_name):
-        self.file_name = file_name
+import csv
+
+def load_movies(file_path):
+    movies = []
+    with open(file_path ,'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            row['Length (min)'] = int(row['Length (min)'])  # Convert length to integer
+            movies.append(row)
+    return movies
+
+def filter_movies(movies, genre=None, director=None, length_range=None, actor=None):
+    filtered_movies = movies
     
-    def display(self, all=True, director=None, genre=None, rating =None, length=None, actor=None):
-        with open(self.file_name, newline="") as file:
-            movie_list = csv.reader(file, delimiter = ',')
-            if all:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{index+1} | {movie}")
-            else:
-                if director != None:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{movie}")
-                        break
-                    for (index, movie) in enumerate(movie_list):
-                        if director in movie[1]:
-                            print(f"{index+1} | {movie}")
-                elif genre != None:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{movie}")
-                        break
-                    for (index, movie) in enumerate(movie_list):
-                        if genre in movie[2]:
-                            print(f"{index+1} | {movie}")   
-                elif rating != None:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{movie}")
-                        break
-                    for (index, movie) in enumerate(movie_list):
-                        if rating in movie[3]:
-                            print(f"{index+1} | {movie}")   
-                elif length != None:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{movie}")
-                        break
-                    for (index, movie) in enumerate(movie_list):
-                        if length in movie[4]:
-                            print(f"{index+1} | {movie}")   
-                elif actor != None:
-                    for (index, movie) in enumerate(movie_list):
-                        print(f"{movie}")
-                        break
-                    for (index, movie) in enumerate(movie_list):
-                        if actor in movie[5]:
-                            print(f"{index+1} | {movie}")   
-                else:
-                    print("Error: display() expected argument")
-                    return            
+    if genre:
+        filtered_movies = [movie for movie in filtered_movies if genre.lower() in movie['Genre'].lower()]
+    if director:
+        filtered_movies = [movie for movie in filtered_movies if director.lower() in movie['Director'].lower()]
+    if length_range:
+        min_length, max_length = length_range
+        filtered_movies = [movie for movie in filtered_movies if min_length <= movie['Length'] <= max_length]
+    if actor:
+        filtered_movies = [movie for movie in filtered_movies if actor.lower() in movie['Actors'].lower()]
+    
+    return filtered_movies
 
-    def recommendation(self):
-        question = "1) Director,\n2) Genre\n3) Rating\n4) Length\n5) Actor\n6) Go Back"
+def print_movies(movies):
+    if not movies:
+        print("Error: No movies")
+        return
+    
+    if not all(isinstance(movie, dict) for movie in movies):
+        print("Error: Invalid movie data format")
+        return
 
-        while True:
-            choice = input(question+"\n>>> ")
-            sec_choice = input("Enter second filter\n>>> ")
+    headers = ["Title", "Genre", "Director", "Length (min)", "Notable Actors"]
+    
+    # Determine column widths efficiently
+    col_widths = {header: len(header) for header in headers}
+    for movie in movies:
+        for header in headers:
+            col_widths[header] = max(col_widths[header], len(str(movie.get(header, ''))))
 
-            if not sec_choice in range(1,6):
-                sec_choice = None
-            else:
-                match choice, sec_choice:
-                    case '1':
-                        director_name = input("Enter Director name\n>>> ")
-                        self.display(all=False, director=director_name)
-                    case '2':
-                        genre = input("Enter Genre\n>>> ")
-                        self.display(all=False, genre=genre)
-                    case '3':
-                        rating = input("Enter Rating\n>>> ")
-                        self.display(all=False, rating=rating)
-                    case '4':
-                        length = input("Enter length of the movie\n>>> ")
-                        self.display(all=False, length=length)
-                    case '5':
-                        actor_name = input("Enter Actor name\n>>> ")
-                        self.display(all=False, actor=actor_name)
-                    case '6':
-                        return
-                    case _:
-                        print("Invalid Choice")
+    # Print the header row
+    print(" | ".join(header.ljust(col_widths[header]) for header in headers))
+
+    # Print dynamic separator line
+    print(" | ".join("-" * col_widths[header] for header in headers))
+
+    # Print each movie row, handling multi-line values
+    for movie in movies:
+        print(" | ".join(str(movie.get(header, '')).replace("\n", ", ").ljust(col_widths[header]) for header in headers))
+
+
 def main():
-
-    file = FileCSV("movies_list.csv")
-
+    file_path = "movies_list.csv"
+    movies = load_movies(file_path)
+    
     while True:
-        choice = input("1) Display all Movies\n2) Movie Recommendation\n>>> ")
-
+        choice = input("1) Print all movies\n2) Recommend movies base on filter\n>>> ")
         match choice:
             case '1':
-                file.display()
-            case '2':
-                file.recommendation()
+                print_movies(movies)
+            case '2':                
+                print("\nFilter options:")
+                genre = input("Enter genre (or press enter to skip) >>> ").strip() or None
+                director = input("Enter director (or press enter to skip) >>> ").strip() or None
+                length_min = input("Enter minimum length in minutes (or press enter to skip) >>> ")
+                length_max = input("Enter maximum length in minutes (or press enter to skip) >>> ")
+                actor = input("Enter actor (or press enter to skip) >>> ").strip() or None
+                
+                length_range = (int(length_min), int(length_max)) if length_min and length_max else None
+                
+                results = filter_movies(movies, genre, director, length_range, actor)
+                
+                if results:
+                    print("\nRecommended Movies:")
+                    print_movies(results)
+                else:
+                    print("\nNo movies found with the given criteria.")
             case _:
-                print("Invalid Choice")
-                continue
+                print("Error: Invalid choice")
+                return
 
 if __name__ == "__main__":
     main()
