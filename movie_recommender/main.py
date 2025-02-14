@@ -76,6 +76,7 @@ def main():
             case '2':                
                 print("\nFilter options:")
                 genre = input("Enter genre (press enter to skip) >>> ").strip() or None
+                rating = input("Enter rating (press enter to skip) >>> ").strip() or None
                 director = input("Enter director (press enter to skip) >>> ").strip() or None
                 length_min = input("Enter minimum length in minutes (press enter to skip) >>> ")
                 length_max = input("Enter maximum length in minutes (press enter to skip) >>> ")
@@ -84,7 +85,7 @@ def main():
                 # Define length range as tuple of min and max length
                 length_range = (int(length_min), int(length_max)) if length_min and length_max else None 
                 
-                results = filter_movies(movies, genre, director, length_range, actor) 
+                results = filter_movies(movies, genre, rating, director, length_range, actor) 
                 
                 # Check if filtered movie exits
                 if results:
