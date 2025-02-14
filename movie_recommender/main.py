@@ -71,7 +71,7 @@ def main():
             # Print all movies
             case '1':
                 print_movies(movies)
-                
+
             # Print Filtered Movies
             case '2':                
                 print("\nFilter options:")
@@ -81,15 +81,18 @@ def main():
                 length_max = input("Enter maximum length in minutes (press enter to skip) >>> ")
                 actor = input("Enter actor (press enter to skip) >>> ").strip() or None
                 
+                # Define length range as tuple of min and max length
                 length_range = (int(length_min), int(length_max)) if length_min and length_max else None 
                 
-                results = filter_movies(movies, genre, director, length_range, actor)
+                results = filter_movies(movies, genre, director, length_range, actor) 
                 
+                # Check if filtered movie exits
                 if results:
                     print("\nRecommended Movies:")
                     print_movies(results)
                 else:
                     print("\nNo movies found with the given filtered\n")
+            # Check for Invalid Choice
             case _:
                 print("Error: Invalid choice")
                 return
