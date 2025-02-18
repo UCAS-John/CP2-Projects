@@ -63,7 +63,7 @@ def print_movies(movies):
 
 
 def main():
-    file_path = os.path.abspath("movie_recommender\movies_list.csv")
+    file_path = os.path.abspath("movies_list.csv")
     print(file_path)
     movies = load_movies(file_path) 
     
