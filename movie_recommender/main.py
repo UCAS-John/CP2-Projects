@@ -1,5 +1,4 @@
 import csv
-import os
 
 # Load movies into dictionary
 def load_movies(file_path):
@@ -63,8 +62,7 @@ def print_movies(movies):
 
 
 def main():
-    file_path = os.path.abspath("movies_list.csv")
-    print(file_path)
+    file_path = "movie_recommender/movies_list.csv"
     movies = load_movies(file_path) 
     
     while True:
