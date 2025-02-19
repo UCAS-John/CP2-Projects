@@ -1,7 +1,7 @@
 import csv
 
 # Load movies into dictionary
-def load_movies(file_path):
+def load_movies(file_path: str):
     movies = []
     with open(file_path ,'r') as file:
         reader = csv.DictReader(file)
@@ -62,6 +62,7 @@ def print_movies(movies):
 
 
 def main():
+
     file_path = "movie_recommender/movies_list.csv"
     movies = load_movies(file_path) 
     
