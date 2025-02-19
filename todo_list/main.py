@@ -8,12 +8,19 @@ Add items to the to do list
 Mark item as complete
 Delete item from to do list
 """
-def check_file(file_path: str):
+def check_file():
+    file_path = "todo_list/todo_list.txt"
     try:
-        with open(file_path, "x") as file:
+        with open(file_path, "x"):
             return
-    expect FileExistsError:
-    
+    except FileExistsError:
+        return 
+
+def load(file_path: str):
+    check_file()
+    todo_list = {}
+    with open(file_path, "r"):
+
 
 def main():
     pass
