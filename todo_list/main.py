@@ -25,10 +25,10 @@ class TodoList:
         try:
             with open(self.file_path, "r") as file:
                 for line in file:
-                    (todo, status) = line.split()
-                    todo_list[todo] = bool(status)
+                    (todo, status) = line.split(", ")
+                    todo_list[todo] = status
         except Exception as e:
-            print(f"File Read Error: {e}")
+            print(f"\nFile Read Error: {e}\n")
             return
         
         return todo_list
@@ -37,74 +37,75 @@ class TodoList:
         try:
             with open(self.file_path, "w") as file:
                 for todo, status in todo_list.items():
-                    file.write(f"{todo} {status}\n")
+                    file.write(f"{todo}, {status}\n")
             return True
         except Exception as e:
-            print(f"Write Error : {e}")
+            print(f"\nWrite Error : {e}\n")
             return False
 
     def add(self):
         self.check_file()
-        todo = input("Enter your todo to add >>> ")
-        status = False
+        while True:
+            todo = input("\nDon't input comma\nEnter your todo to add >>> ")
+            if "," in todo:
+                continue
+            else:
+                break
+        status = "Not-Complete"
         try:
             with open(self.file_path, "a") as file:
-                file.write(f"{todo} {status}\n")
+                file.write(f"{todo}, {status}\n")
             
-            print(f"Succesfully add {todo} to your todo list")
+            print(f"\nSuccesfully add {todo} to your todo list\n")
         except Exception as e:
-            print(f"Add Todo Error: {e}")
+            print(f"\nAdd Todo Error: {e}\n")
 
     def remove(self):
         self.check_file()
 
-        todo = input("Enter todo to remove >>> ")
+        todo = input("\nEnter todo to remove >>> ")
 
         todo_list = {}
         todo_list = self.load()
         if todo not in todo_list:
-            print("You todo is not in todo list")
+            print("\nYou todo is not in todo list\n")
             return 
         todo_list.pop(todo)
 
         if self.write(todo_list):
-            print(f"Succesfully remove {todo} from your todo list")
+            print(f"\nSuccesfully remove {todo} from your todo list\n")
 
     def mark(self):
         self.check_file()
 
-        todo = input("Enter your todo to mark >>> ")
-        while True:
-            try:
-                status = bool(input("Enter status for your todo (True/False) >>> "))
-                break
-            except ValueError:
-                print("Please enter True or False")
-                continue
+        todo = input("\nEnter your todo to mark >>> ")
+        status_input = input("1) Complete\n2) Not-Complete\nEnter status for your todo >>> ")
+
+        match status_input:
+            case '1':
+                status = "Complete"
+            case _:
+                status = "Not-Complete"
 
         todo_list = {}
         todo_list = self.load()
         if todo not in todo_list:
-            print("You todo is not in todo list")
+            print("\nYou todo is not in todo list\n")
             return 
         else:
             todo_list[todo] = status
 
-        mark = "Not Complete"
-        if status == True:
-            mark = "Complete"
-
         if self.write(todo_list):
-            print(f"Succesfully mark {todo} as {mark} from your todo list")
+            print(f"\nSuccesfully mark {todo} as {status} from your todo list\n")
 
     def clear(self):
         self.check_file()
         try:
             with open(self.file_path, "w") as file:
                 file.write("")
-            print("Successfully clear todo list")
+            print("\nSuccessfully clear todo list\n")
         except Exception as e:
-            print(f"Clear Todo List Error: {e}")
+            print(f"\nClear Todo List Error: {e}\n")
 
     def view(self):
         self.check_file()
@@ -112,15 +113,31 @@ class TodoList:
         todo_list = self.load()
 
         if not todo_list:
-            print("You don't have todo in your todo list yet")
+            print("\nYou don't have todo in your todo list yet\n")
             return
-        for todo, status in todo_list.items():
-            if status:
-                mark = "Complete"
-            else:
-                mark = "Not Complete"
+        
+        headers = ["TO-DO", "STATUS"]
 
-            print(f"Todo: {todo} Status: {mark}")
+        # Get max column width for each headers
+        col_widths = {header: len(header) for header in headers}
+        for todo, status in todo_list.items():
+            col_widths[headers[0]] = max(col_widths[headers[0]], len(str(todo)))
+            col_widths[headers[1]] = max(col_widths[headers[0]], len(str(status))) 
+
+        print("")
+        # Print the header row 
+        print(" | ".join(header.ljust(col_widths[header]) for header in headers))
+
+        # Print seperate line below header
+        print(" | ".join("-" * col_widths[header] for header in headers))
+
+        # Print each movie row
+        for (todo, status) in todo_list.items():
+            task = str(todo).ljust(int(col_widths[headers[0]]))
+            print(task, end="")
+            print(f" | {status}")
+
+        print("")
 
 def main():
 
