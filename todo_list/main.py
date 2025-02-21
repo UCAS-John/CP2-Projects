@@ -10,8 +10,9 @@ Delete item from to do list
 """
 class TodoList:
     def __init__(self):
-        self.file_path = "todo_list/todo_list.txt"
+        self.file_path = "todo_list/todo_list.txt" # Todo list file path
 
+    # Check if file exists
     def check_file(self):
         try:
             with open(self.file_path, "x"):
@@ -19,6 +20,7 @@ class TodoList:
         except FileExistsError:
             return 
 
+    # Load file into dictionary
     def load(self):
         self.check_file()
         todo_list = {}
@@ -33,6 +35,7 @@ class TodoList:
         
         return todo_list
 
+    # Write Todo list dictionary to file
     def write(self, todo_list: dict):
         try:
             with open(self.file_path, "w") as file:
@@ -43,6 +46,7 @@ class TodoList:
             print(f"\nWrite Error : {e}\n")
             return False
 
+    # Add Todo to file
     def add(self):
         self.check_file()
         while True:
@@ -60,6 +64,7 @@ class TodoList:
         except Exception as e:
             print(f"\nAdd Todo Error: {e}\n")
 
+    # Remove Todo from file
     def remove(self):
         self.check_file()
 
@@ -75,6 +80,7 @@ class TodoList:
         if self.write(todo_list):
             print(f"\nSuccesfully remove {todo} from your todo list\n")
 
+    # Mark Todo if Compete or Not-Complete
     def mark(self):
         self.check_file()
 
@@ -98,6 +104,7 @@ class TodoList:
         if self.write(todo_list):
             print(f"\nSuccesfully mark {todo} as {status} from your todo list\n")
 
+    # Clear all Todo in file
     def clear(self):
         self.check_file()
         try:
@@ -107,6 +114,7 @@ class TodoList:
         except Exception as e:
             print(f"\nClear Todo List Error: {e}\n")
 
+    # View all Todo in file
     def view(self):
         self.check_file()
         todo_list = {}
@@ -120,6 +128,8 @@ class TodoList:
 
         # Get max column width for each headers
         col_widths = {header: len(header) for header in headers}
+
+        # Get max column width for each todo and status
         for todo, status in todo_list.items():
             col_widths[headers[0]] = max(col_widths[headers[0]], len(str(todo)))
             col_widths[headers[1]] = max(col_widths[headers[0]], len(str(status))) 
@@ -131,7 +141,7 @@ class TodoList:
         # Print seperate line below header
         print(" | ".join("-" * col_widths[header] for header in headers))
 
-        # Print each movie row
+        # Print each Todo
         for (todo, status) in todo_list.items():
             task = str(todo).ljust(int(col_widths[headers[0]]))
             print(task, end="")
@@ -150,14 +160,19 @@ def main():
         choice = input("Enter action >>> ")
 
         match choice:
+            # View all Todo
             case '1':
                 todo_list.view()
+            # Add Todo
             case '2':
                 todo_list.add()
+            # Remove Todo
             case '3':
                 todo_list.remove()
+            # Clear all Todo 
             case '4':
                 todo_list.clear()
+            # Exit
             case '5':
                 print("Exit Todo List")
                 break
