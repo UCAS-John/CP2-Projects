@@ -27,8 +27,9 @@ class TodoList:
         try:
             with open(self.file_path, "r") as file:
                 for line in file:
-                    (todo, status) = line.split(", ")
-                    todo_list[todo] = status
+                    if line.strip():
+                        (todo, status) = line.strip().split(", ", 1)
+                        todo_list[todo] = status
         except Exception as e:
             print(f"\nFile Read Error: {e}\n")
             return
@@ -50,8 +51,8 @@ class TodoList:
     def add(self):
         self.check_file()
         while True:
-            todo = input("\nDon't input comma\nEnter your todo to add >>> ")
-            if "," in todo:
+            todo = input("\nDon't input comma\nEnter your todo to add >>> ").strip()
+            if "," in todo or todo is None:
                 continue
             else:
                 break
@@ -68,7 +69,7 @@ class TodoList:
     def remove(self):
         self.check_file()
 
-        todo = input("\nEnter todo to remove >>> ")
+        todo = input("\nEnter todo to remove >>> ").strip()
 
         todo_list = {}
         todo_list = self.load()
@@ -84,8 +85,8 @@ class TodoList:
     def mark(self):
         self.check_file()
 
-        todo = input("\nEnter your todo to mark >>> ")
-        status_input = input("1) Complete\n2) Not-Complete\nEnter status for your todo >>> ")
+        todo = input("\nEnter your todo to mark >>> ").strip()
+        status_input = input("1) Complete\n2) Not-Complete\nEnter status for your todo >>> ").strip()
 
         match status_input:
             case '1':
@@ -95,9 +96,10 @@ class TodoList:
 
         todo_list = {}
         todo_list = self.load()
+
         if todo not in todo_list:
             print("\nYou todo is not in todo list\n")
-            return 
+            return
         else:
             todo_list[todo] = status
 
@@ -107,12 +109,8 @@ class TodoList:
     # Clear all Todo in file
     def clear(self):
         self.check_file()
-        try:
-            with open(self.file_path, "w") as file:
-                file.write("")
-            print("\nSuccessfully clear todo list\n")
-        except Exception as e:
-            print(f"\nClear Todo List Error: {e}\n")
+        if self.write({}):
+            print("\nSuccessfully cleared todo list\n")
 
     # View all Todo in file
     def view(self):
@@ -143,9 +141,7 @@ class TodoList:
 
         # Print each Todo
         for (todo, status) in todo_list.items():
-            task = str(todo).ljust(int(col_widths[headers[0]]))
-            print(task, end="")
-            print(f" | {status}")
+            print(f"{todo.ljust(col_widths["TO-DO"])} | {status}")
 
         print("")
 
@@ -153,11 +149,11 @@ def main():
 
     todo_list = TodoList()
 
-    instruction = "1) View Todo List\n2) Add Todo List\n3) Remove Todo List\n4) Clear all todo in todo list\n5) Exit"
+    instruction = "1) View Todo List\n2) Add Todo List\n3) Mark Todo List\n4) Remove Todo List\n5) Clear all todo in todo list\n6) Exit"
 
     while True:
         print(instruction)
-        choice = input("Enter action >>> ")
+        choice = input("Enter action >>> ").strip()
 
         match choice:
             # View all Todo
@@ -168,16 +164,18 @@ def main():
                 todo_list.add()
             # Remove Todo
             case '3':
+                todo_list.mark()
+            case '4':
                 todo_list.remove()
             # Clear all Todo 
-            case '4':
+            case '5':
                 todo_list.clear()
             # Exit
-            case '5':
-                print("Exit Todo List")
+            case '6':
+                print("\nExit Todo List\n")
                 break
             case _:
-                print("Invalid Choice")
+                print("\nInvalid Choice\n")
 
 if __name__ == "__main__":
     main()
