@@ -10,3 +10,19 @@ Lets the user tell what file to use it on
 Uses good naming practices
 Has good white space
 """
+
+from file import load
+from timestamp import get_time
+
+def main():
+    print("Welcome to word counter")
+
+    path = input("Enter path to your document file: ")
+
+    data = load(path)
+
+    if not data:
+        ("Your document is empty")
+        return
+
+main()
