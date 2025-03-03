@@ -21,9 +21,11 @@ def main():
         choice = input(">>> ")
         
         match choice:
+            # Update Word Count
             case '1':
                 file_path = input("Enter the path to your document file: ")
                 process(file_path)
+            # Exit
             case '2':
                 print("Exit")
                 break

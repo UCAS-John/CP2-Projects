@@ -6,6 +6,8 @@ def load(file_path: str):
     try:
         with open(file_path, 'r', newline="") as file:
             return file.read()
+    except FileNotFoundError:
+        print("Invalid file path")
     except Exception as e:
         print(f"Error loading: {e}")
         return None
@@ -16,6 +18,8 @@ def write(file_path: str, content: str) -> bool:
         with open(file_path, 'w', newline="") as file:
             file.write(content)
         return True
+    except FileNotFoundError:
+        print("Invalid file path")
     except Exception as e:
         print(f"Error writing: {e}")
         return False
@@ -57,6 +61,8 @@ def process(file_path: str) -> bool:
         
         # Write updated content back to file
         success = write(file_path, updated_content)
+
+        # Check if write execute successfully
         if success:
             print(f"\nDocument updated successfully!")
             print(f"Word Count: {word_count}")
