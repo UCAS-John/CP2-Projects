@@ -11,18 +11,24 @@ Uses good naming practices
 Has good white space
 """
 
-from file import load
-from timestamp import get_time
+from file import process
 
 def main():
-    print("Welcome to word counter")
+    while True:
+        print("\nDocument Word Counter")
+        print("1) Update document with word count and timestamp")
+        print("2) Exit")
+        choice = input(">>> ")
+        
+        match choice:
+            case '1':
+                file_path = input("Enter the path to your document file: ")
+                process(file_path)
+            case '2':
+                print("Exit")
+                break
+            case _:
+                print("Invalid choice")
 
-    path = input("Enter path to your document file: ")
-
-    data = load(path)
-
-    if not data:
-        ("Your document is empty")
-        return
-
-main()
+if __name__ == "__main__":
+    main()
