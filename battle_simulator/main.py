@@ -21,9 +21,14 @@ Save character data to a CSV file
 Load character data from a CSV file
 """
 from character import Player
+from file import init_file
 
 def main():
-    raise NotImplementedError
+    init_file()
+    name = input("Enter player name: ")
+    player = Player(name)
+
+    player.display_stat()
 
 if __name__ ==  "__main__":
     main()

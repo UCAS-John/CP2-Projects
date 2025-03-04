@@ -1,9 +1,11 @@
 import csv
+import os
 
 class Player:
     def __init__(self, name):
         
-        self.path = "battle_simulator/character.csv"
+        self.path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
+
         data = self.load_csv(name=name)
         
         if data:
