@@ -25,7 +25,20 @@ from file import init_file
 
 def main():
     init_file()
-    name = input("Enter player name: ")
+    
+    print("Welcome to Battle Simulator")
+    
+    def get_choice():
+        print("1) Create Character")
+        print("2) Load Characer")
+        print("3) Exit")
+
+        choice = input(">>> ")
+        
+        if choice not in range(1,4):
+            get_choice()
+    
+    name = input("Name: ")
     player = Player(name)
 
     player.display_stat()
