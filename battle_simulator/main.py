@@ -20,6 +20,7 @@ File Operations:
 Save character data to a CSV file
 Load character data from a CSV file
 """
+
 from character import Player
 from file import init_file
 
@@ -29,19 +30,24 @@ def main():
     print("Welcome to Battle Simulator")
     
     def get_choice():
-        print("1) Create Character")
-        print("2) Load Characer")
-        print("3) Exit")
+        print("1) Play game")
+        print("2) Exit")
 
         choice = input(">>> ")
         
-        if choice not in range(1,4):
+        if choice not in ['1', '2']: 
             get_choice()
-    
-    name = input("Name: ")
-    player = Player(name)
+        else:
+            return choice
 
-    player.display_stat()
+    choice = get_choice()
+
+    match choice:
+        case '1':
+            name = input("Enter Chracter name")
+            Player(name)
+        case '2':
+            return
 
 if __name__ ==  "__main__":
     main()
