@@ -1,6 +1,5 @@
 import csv
 import os
-
 class Player:
     def __init__(self, name):
         
@@ -14,18 +13,25 @@ class Player:
             self.strength = data["strength"]
             self.defense = data["defense"]
             self.speed = data["speed"]
-            self.level = data["level"] 
         else:
             self.name = name
-            self.health = 100
-            self.strength = 20
-            self.defense = 10
-            self.speed = 5
-            self.level = 1
+            self.health = 0
+            self.strength = 0
+            self.defense = 0
+            self.speed = 0
             self.save_csv()
 
-        self.current_health = self.health        
+        self.current_health = self.health       
+    
+    def __new__(self, name: str):
+        self.path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
+        data = self.load_csv(self, name=name)
 
+        if data:
+            return super().__new__(self), True
+        else:
+            return super().__new__(self), False
+        
     def load_csv(self, name: str):
 
         data = {}
@@ -47,14 +53,13 @@ class Player:
         try:
             data = self.load_csv(name=self.name)
 
-            fieldnames = ['name', 'level', 'health', 'strength', 'defense', 'speed']
+            fieldnames = ['name', 'health', 'strength', 'defense', 'speed']
             data = {
                    "name": self.name,
-                   "level": self.level,
                    "health": self.health,
                    "strength": self.strength,
                    "defense": self.defense,
-                   "speed": self.speed,
+                   "speed": self.speed
                 }
 
             with open(self.path, "w", newline="") as file:
@@ -69,9 +74,42 @@ class Player:
 
     def display_stat(self):
         print(f"Name: {self.name}")
-        print(f"Level: {self.level}")
         print(f"Health: {self.health}")
         print(f"Strength: {self.strength}") 
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
-        
+
+def create_character(name: str):
+    player, created = Player(name)
+
+    if created: 
+        print(f"Chracter name: {name} already created")
+        return None
+    else:
+        print(f"Create Chracter name: {name}")
+        return player
+
+def login_charcter(name: str):
+    player, created = Player(name)
+
+    if created:
+        return player
+    else:
+        print(f"Chracter name: {name} doesn't exist\nPlease Create Character first")
+        return None
+
+if __name__ == "__main__":
+    choice = input(">>>")
+    name = input("name: ")
+    match choice:
+        case '1':
+            player = login_charcter(name)
+            if not player:
+                exit()
+            player.display_stat()
+        case '2':
+            
+            player = create_character(name)
+            if not player:
+                exit()
+            player.display_stat()
