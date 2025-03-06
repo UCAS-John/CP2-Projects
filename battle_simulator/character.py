@@ -22,6 +22,8 @@ class Player:
             self.speed = 0
             self.save_csv()
 
+        self.current_health = self.health        
+
     def load_csv(self, name: str):
 
         data = {}
