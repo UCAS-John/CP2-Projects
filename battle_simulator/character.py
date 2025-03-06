@@ -14,12 +14,14 @@ class Player:
             self.strength = data["strength"]
             self.defense = data["defense"]
             self.speed = data["speed"]
+            self.level = data["level"] 
         else:
             self.name = name
-            self.health = 0
-            self.strength = 0
-            self.defense = 0
-            self.speed = 0
+            self.health = 100
+            self.strength = 20
+            self.defense = 10
+            self.speed = 5
+            self.level = 1
             self.save_csv()
 
         self.current_health = self.health        
@@ -45,13 +47,14 @@ class Player:
         try:
             data = self.load_csv(name=self.name)
 
-            fieldnames = ['name', 'health', 'strength', 'defense', 'speed']
+            fieldnames = ['name', 'level', 'health', 'strength', 'defense', 'speed']
             data = {
                    "name": self.name,
+                   "level": self.level,
                    "health": self.health,
                    "strength": self.strength,
                    "defense": self.defense,
-                   "speed": self.speed
+                   "speed": self.speed,
                 }
 
             with open(self.path, "w", newline="") as file:
@@ -66,7 +69,9 @@ class Player:
 
     def display_stat(self):
         print(f"Name: {self.name}")
+        print(f"Level: {self.level}")
         print(f"Health: {self.health}")
         print(f"Strength: {self.strength}") 
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
+        
