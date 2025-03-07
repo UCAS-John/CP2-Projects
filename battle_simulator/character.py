@@ -1,9 +1,13 @@
 import csv
 import os
+
 class Player:
+
+    file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
+    
     def __init__(self, name):
         
-        self.path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
+        self._created = False
 
         data = self.load_csv(name=name)
         
@@ -21,23 +25,15 @@ class Player:
             self.speed = 0
             self.save_csv()
 
-        self.current_health = self.health       
-    
-    def __new__(self, name: str):
-        self.path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
-        data = self.load_csv(self, name=name)
-
-        if data:
-            return super().__new__(self), True
-        else:
-            return super().__new__(self), False
-        
-    def load_csv(self, name: str):
+        self.current_health = self.health        
+       
+    @staticmethod
+    def load_csv(name: str, file_path=file_path) -> dict:
 
         data = {}
 
         try:
-            with open(self.path, "r", newline="") as file:
+            with open(file_path, "r", newline="") as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row.get("name", "") == name:
@@ -46,12 +42,12 @@ class Player:
             print("Invalid file path")
         except Exception as e:
             print(f"Error loading file: {e}")
-        
+
         return data
 
-    def save_csv(self):
+    def save_csv(self,file_path=file_path):
         try:
-            data = self.load_csv(name=self.name)
+            data = Player.load_csv(name=self.name)
 
             fieldnames = ['name', 'health', 'strength', 'defense', 'speed']
             data = {
@@ -62,7 +58,7 @@ class Player:
                    "speed": self.speed
                 }
 
-            with open(self.path, "w", newline="") as file:
+            with open(file_path, "w", newline="") as file:
                writer = csv.DictWriter(file, fieldnames=fieldnames)
 
                writer.writeheader()
@@ -79,37 +75,43 @@ class Player:
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
 
-def create_character(name: str):
-    player, created = Player(name)
-
-    if created: 
-        print(f"Chracter name: {name} already created")
-        return None
-    else:
-        print(f"Create Chracter name: {name}")
-        return player
-
-def login_charcter(name: str):
-    player, created = Player(name)
-
-    if created:
-        return player
-    else:
-        print(f"Chracter name: {name} doesn't exist\nPlease Create Character first")
-        return None
+    @staticmethod
+    def check_character(name: str) -> bool:
+        data = Player.load_csv(name)
+        if data:
+            return True
+        else:
+            return False
+    
+    @staticmethod
+    def create_character(name: str):
+        if Player.check_character(name):
+            print(f"Chracter name: {name} already created")
+            return None
+        else:
+            print(f"Create Chracter name: {name}")
+            return Player(name)
+    
+    @staticmethod
+    def login_charcter(name: str):
+        if Player.check_character(name):
+            return Player(name)
+        else:
+            print(f"Chracter name: {name} doesn't exist\nPlease Create Character first")
+            return None
 
 if __name__ == "__main__":
     choice = input(">>>")
     name = input("name: ")
-    match choice:
-        case '1':
-            player = login_charcter(name)
-            if not player:
-                exit()
-            player.display_stat()
-        case '2':
+    # match choice:
+        #case '1':
+            # player = login_charcter(name)
+            # if not player:
+            #   exit()
+            # player.display_stat()
+        # case '2':
             
-            player = create_character(name)
-            if not player:
-                exit()
-            player.display_stat()
+            # player = create_character(name)
+            # if not player:
+            #    exit()
+            #player.display_stat()
