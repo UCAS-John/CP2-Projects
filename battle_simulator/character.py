@@ -9,7 +9,7 @@ class Player:
         
         self._created = False
 
-        data = self.load_csv(name=name)
+        data = Player.load_csv(name=name)
         
         if data:
             self.name = data["name"]
@@ -17,12 +17,16 @@ class Player:
             self.strength = data["strength"]
             self.defense = data["defense"]
             self.speed = data["speed"]
+            self.level = data["level"]
+            self.exp = data["exp"]
         else:
             self.name = name
             self.health = 0
             self.strength = 0
             self.defense = 0
             self.speed = 0
+            self.level = 1
+            self.exp = 0
             self.save_csv()
 
         self.current_health = self.health        
@@ -49,13 +53,15 @@ class Player:
         try:
             data = Player.load_csv(name=self.name)
 
-            fieldnames = ['name', 'health', 'strength', 'defense', 'speed']
+            fieldnames = ['name', 'health', 'strength', 'defense', 'speed', 'level', 'exp']
             data = {
                    "name": self.name,
                    "health": self.health,
                    "strength": self.strength,
                    "defense": self.defense,
-                   "speed": self.speed
+                   "speed": self.speed,
+                   "level": self.level,
+                   "exp": self.exp
                 }
 
             with open(file_path, "w", newline="") as file:
@@ -70,13 +76,24 @@ class Player:
 
     def display_stat(self):
         print(f"Name: {self.name}")
+        print(f"Level: {self.level}")
+        print(f"EXP: {self.exp}/100")
         print(f"Health: {self.health}")
         print(f"Strength: {self.strength}") 
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
 
+    def gain_exp(self, exp: int):
+        current_exp = self.exp + exp
+        if current_exp >= 100:
+            self.level += int(current_exp/100)
+            self.exp = current_exp%100
+        else:
+            self.exp += exp
+        self.save_csv()
+
     @staticmethod
-    def check_character(name: str) -> bool:
+    def check_character(name: str):
         data = Player.load_csv(name)
         if data:
             return True

@@ -23,10 +23,13 @@ Load character data from a CSV file
 
 from character import Player
 from file import init_file
+from battle import battle
 
 def main():
     init_file()
     
+    data = Player.load_csv()
+
     print("Welcome to Battle Simulator")
     
     def get_choice():
@@ -36,19 +39,48 @@ def main():
 
         choice = input(">>> ")
         
-        if choice not in ['1', '2']: 
+        if choice not in ['1', '2', '3']: 
             get_choice()
         else:
             return choice
 
     choice = get_choice()
 
+    def get_name():
+        return input("Enter Chracter name: ")
+        
     match choice:
         case '1':
-            name = input("Enter Chracter name")
-            Player(name)
+            name = get_name()
+            player = Player.create_character(name)
         case '2':
-            return
+            name = get_name()
+            player = Player.login_charcter(name)
+        case '3':
+            exit()
+        case _:
+            print("Invalid choice")
+            main()
+
+    if not player:
+        main()
+
+    def get_enemy():
+        for i ,character in enumerate(data, start=1):
+            print(f"{i}) {character['name']}")
+
+        enemy = input("Enter character to to fight")
+
+        if enemy not in data:
+            print("Invalid Chracter to fight")
+            get_enemy()
+
+        return enemy
+    
+    enemy = get_enemy()
+
+    def fight():
+        battle(character1=player, character2=enemy)
 
 if __name__ ==  "__main__":
     main()
