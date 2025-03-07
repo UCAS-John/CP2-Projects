@@ -30,8 +30,9 @@ def main():
     print("Welcome to Battle Simulator")
     
     def get_choice():
-        print("1) Play game")
-        print("2) Exit")
+        print("1) Create Character")
+        print("2) Login Character")
+        print("3) Exit")
 
         choice = input(">>> ")
         
