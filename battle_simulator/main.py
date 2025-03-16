@@ -28,8 +28,6 @@ from battle import battle
 def main():
     init_file()
     
-    data = Player.load_csv()
-
     print("Welcome to Battle Simulator")
     
     def get_choice():
@@ -66,12 +64,13 @@ def main():
         main()
 
     def get_enemy():
-        for i ,character in enumerate(data, start=1):
-            print(f"{i}) {character['name']}")
+        data = Player.load_csv(all=True)
+        for i, enemy in enumerate(data):
+            print(f"{i}) {enemy["name"]}")
 
         enemy = input("Enter character to to fight")
 
-        if enemy not in data:
+        if not Player.check_character(enemy):
             print("Invalid Chracter to fight")
             get_enemy()
 

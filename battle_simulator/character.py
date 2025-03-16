@@ -4,7 +4,8 @@ import os
 class Player:
 
     file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
-    
+    enemy_list = ["Slime", "Zombie", "Skeleton"]
+
     def __init__(self, name):
         
         self._created = False
@@ -12,40 +13,57 @@ class Player:
         data = Player.load_csv(name=name)
         
         if data:
-            self.name = data["name"]
-            self.health = data["health"]
-            self.strength = data["strength"]
-            self.defense = data["defense"]
-            self.speed = data["speed"]
-            self.level = data["level"]
-            self.exp = data["exp"]
+            self.name: str = data["name"]
+            self.health: int = data["health"]
+            self.strength: int = data["strength"]
+            self.defense: int = data["defense"]
+            self.speed: int = data["speed"]
+            self.level: int = data["level"]
+            self.exp: int = data["exp"]
         else:
             self.name = name
-            self.health = 0
-            self.strength = 0
-            self.defense = 0
-            self.speed = 0
+            self.health = 100
+            self.strength = 10
+            self.defense = 7
+            self.speed = 5
             self.level = 1
             self.exp = 0
             self.save_csv()
 
         self.current_health = self.health        
-       
+
     @staticmethod
-    def load_csv(name: str, file_path=file_path) -> dict:
+    def load_csv(name = None, file_path=file_path, all=False):
+        
+        data = None
 
-        data = {}
+        if all:
+            try:
+                data = []
+                with open(file_path, "r", newline="") as file:
+                    reader = csv.DictReader(file)
+                    for row in reader:
+                        data.append(row)
+            except FileNotFoundError:
+                print("Invalid file path")
+            except Exception as e:
+                print(f"Error loading file: {e}")
+        else:
+            try:
+                data = {}
+                with open(file_path, "r", newline="") as file:
+                    reader = csv.DictReader(file)
+                    for row in reader:
+                        if row.get("name", "") == name:
+                            data = row
+                for stat in data:
+                    if stat != 'name':
+                        data[stat] = int(data[stat])
 
-        try:
-            with open(file_path, "r", newline="") as file:
-                reader = csv.DictReader(file)
-                for row in reader:
-                    if row.get("name", "") == name:
-                        data = row
-        except FileNotFoundError:
-            print("Invalid file path")
-        except Exception as e:
-            print(f"Error loading file: {e}")
+            except FileNotFoundError:
+                print("Invalid file path")
+            except Exception as e:
+                print(f"Error loading file: {e}")
 
         return data
 
@@ -86,8 +104,11 @@ class Player:
     def gain_exp(self, exp: int):
         current_exp = self.exp + exp
         if current_exp >= 100:
-            self.level += int(current_exp/100)
+            gained_lv = int(current_exp/100)
+            self.level += gained_lv
             self.exp = current_exp%100
+            self.health += (gained_lv*14)
+            self.strength += (gained_lv*4)
         else:
             self.exp += exp
         self.save_csv()
