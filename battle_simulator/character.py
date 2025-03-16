@@ -43,6 +43,8 @@ class Player:
                 with open(file_path, "r", newline="") as file:
                     reader = csv.DictReader(file)
                     for row in reader:
+                        if row.get("name", "") == name:
+                            continue
                         data.append(row)
             except FileNotFoundError:
                 print("Invalid file path")
@@ -114,7 +116,9 @@ class Player:
         self.save_csv()
 
     @staticmethod
-    def check_character(name: str):
+    def check_character(name="", enemy_list=enemy_list):
+        if name in enemy_list:
+            return False
         data = Player.load_csv(name)
         if data:
             return True

@@ -1,3 +1,5 @@
+# John Wangwang Battle Simulator
+
 """
 Character Creation and Management:
 
@@ -20,6 +22,7 @@ File Operations:
 Save character data to a CSV file
 Load character data from a CSV file
 """
+import sys
 
 from character import Player
 from file import init_file
@@ -55,7 +58,7 @@ def main():
             name = get_name()
             player = Player.login_charcter(name)
         case '3':
-            exit()
+            sys.exit(0)
         case _:
             print("Invalid choice")
             main()
@@ -64,8 +67,8 @@ def main():
         main()
 
     def get_enemy():
-        data = Player.load_csv(all=True)
-        for i, enemy in enumerate(data):
+        data = Player.load_csv(name=player.name, all=True)
+        for i, enemy in enumerate(data, start=1):
             print(f"{i}) {enemy["name"]}")
 
         enemy = input("Enter character to to fight")
@@ -78,8 +81,21 @@ def main():
     
     enemy = get_enemy()
 
-    def fight():
+    def fight(player=player, enemy=None):
         battle(character1=player, character2=enemy)
+
+    fight(enemy)
+    
+    print("1) Battle Again")
+    print("2) logout ")
+    con = input(">>> ")
+
+    match con:
+        case '1':
+            enemy = get_enemy()
+            fight(enemy)
+        case _:
+            main()
 
 if __name__ ==  "__main__":
     main()
