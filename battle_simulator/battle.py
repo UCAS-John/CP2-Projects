@@ -15,7 +15,7 @@ def battle(character1: Player, character2: Player):
             character2.current_health -= damage
 
     def dodge(receiver: Player, attacker: Player):
-        if receiver.speed - attack.speed <= 0:
+        if receiver.speed - attacker.speed <= 0:
             return False
         else:
             if random.random() < receiver.speed/100:
@@ -35,15 +35,17 @@ def battle(character1: Player, character2: Player):
         for i, skill in enumerate(skills, start=1):
             print(f"{i}) {skill}")
 
-        choice = input("Enter skill to use: ")
+        choice = input("Enter skill to use: ").strip()
 
         if choice not in ['1', '2']:
+            print("\nInvalid Skill Choice\n")
             get_skill_choice()
 
         return choice
 
     choice = get_skill_choice()
 
+    print("")
     match choice:
         case '1':
             damage = calc_dmg(attacker=character1, defender=character2)
@@ -54,6 +56,7 @@ def battle(character1: Player, character2: Player):
                 print(f"{character2.name} recieve {damage} DMG and left with {character2.current_health} HP")
 
         case '2':
+            print(f"{character1.name} healed up by 10")
             heal(character=1)
 
     if character2.current_health <= 0:
@@ -64,7 +67,7 @@ def battle(character1: Player, character2: Player):
     choice = random.randint(1,2)
     
     match choice:
-        case '1':
+        case 1:
             damage = calc_dmg(attacker=character2, defender=character1)
             if dodge(attacker=character2, receiver=character1):
                 print(f"{character2.name} miss the attack!")
@@ -72,7 +75,8 @@ def battle(character1: Player, character2: Player):
                 take_damage(receiver=1, damage=damage)
                 print(f"{character1.name} recieve {damage} DMG and left with {character1.current_health} HP")
 
-        case '2':
+        case 2:
+            print(f"{character2.name} healed up by 10")
             heal(character=2)
 
     if character1.current_health <= 0:
@@ -80,7 +84,7 @@ def battle(character1: Player, character2: Player):
         character2.gain_exp(130)
         return 2
         
-    battle()
+    battle(character1=character1, character2=character2)
         
 if __name__ == "__main__":
     attack = Player("John")

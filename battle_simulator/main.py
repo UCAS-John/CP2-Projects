@@ -29,16 +29,24 @@ from file import init_file
 from battle import battle
 
 def main():
+    # initialize file
     init_file()
     
     print("Welcome to Battle Simulator")
     
-    def get_choice():
-        print("1) Create Character")
-        print("2) Login Character")
-        print("3) Exit")
+    # Recursive get choice if choice is invalid
+    def get_choice(logout=True):
+        if logout:
+            print("\n1) Create Character")
+            print("2) Login Character")
+            print("3) Exit")
+        else:
+            print("\n1) Battle")
+            print("2) Display Stat")
+            print("3) logout")
 
-        choice = input(">>> ")
+
+        choice = input(">>> ").strip()
         
         if choice not in ['1', '2', '3']: 
             get_choice()
@@ -47,55 +55,75 @@ def main():
 
     choice = get_choice()
 
+    # Get Character name
     def get_name():
-        return input("Enter Chracter name: ")
+        return input("Enter Chracter name: ").strip()
         
     match choice:
         case '1':
             name = get_name()
-            player = Player.create_character(name)
+            name = Player.create_character(name)
+            if name is None:
+                main()
+            player = Player(name=Player.create_character(name))
         case '2':
             name = get_name()
-            player = Player.login_charcter(name)
+            name = Player.login_charcter(name)
+            if name is None:
+                main()
+            player = Player(name=Player.login_charcter(name))
         case '3':
             sys.exit(0)
         case _:
             print("Invalid choice")
             main()
-
-    if not player:
+    
+    if player is None:
         main()
 
-    def get_enemy():
-        data = Player.load_csv(name=player.name, all=True)
-        for i, enemy in enumerate(data, start=1):
-            print(f"{i}) {enemy["name"]}")
+    # Menu If Login
+    def login():
+        choice = get_choice(logout=False)
 
-        enemy = input("Enter character to to fight")
-
-        if not Player.check_character(enemy):
-            print("Invalid Chracter to fight")
-            get_enemy()
-
-        return enemy
-    
-    enemy = get_enemy()
-
-    def fight(player=player, enemy=None):
-        battle(character1=player, character2=enemy)
-
-    fight(enemy)
-    
-    print("1) Battle Again")
-    print("2) logout ")
-    con = input(">>> ")
-
-    match con:
-        case '1':
-            enemy = get_enemy()
-            fight(enemy)
-        case _:
+        if not player:
             main()
+
+        # Display List of Enemy and Get Enemy to fight
+        def get_enemy():
+            data = Player.load_csv(name=player.name, all=True)
+            print("")
+            for i, enemy in enumerate(data, start=1):
+                print(f"{i}) {enemy["name"]}")
+
+            enemy = input("Enter character to to fight (Enter name)\n>>> ").strip().lower()
+
+            if not Player.check_character(name=enemy, check_enemy=True):
+                print("Invalid Chracter to fight")
+                get_enemy()
+
+            return enemy
+        
+        #function to start the battle
+        def fight(player=player, enemy=None):
+            battle(character1=player, character2=enemy)
+        
+        match choice:
+            case '1':
+                enemy = get_enemy()
+                enemy_class = Player(name=enemy)
+
+                fight(player=player, enemy=enemy_class)
+
+                login()
+
+            case '2':
+                player.display_stat()
+                login()
+
+            case '3':
+                main()
+
+    login()
 
 if __name__ ==  "__main__":
     main()

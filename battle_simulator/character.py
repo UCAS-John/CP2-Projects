@@ -4,7 +4,7 @@ import os
 class Player:
 
     file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
-    enemy_list = ["Slime", "Zombie", "Skeleton"]
+    enemy_list = ["slime", "zombie", "skeleton"]
 
     def __init__(self, name):
         
@@ -23,7 +23,7 @@ class Player:
         else:
             self.name = name
             self.health = 100
-            self.strength = 10
+            self.strength = 20
             self.defense = 7
             self.speed = 5
             self.level = 1
@@ -36,6 +36,8 @@ class Player:
     def load_csv(name = None, file_path=file_path, all=False):
         
         data = None
+        if name:
+            name = name.lower()
 
         if all:
             try:
@@ -43,7 +45,7 @@ class Player:
                 with open(file_path, "r", newline="") as file:
                     reader = csv.DictReader(file)
                     for row in reader:
-                        if row.get("name", "") == name:
+                        if row.get("name", "").lower() == name:
                             continue
                         data.append(row)
             except FileNotFoundError:
@@ -69,13 +71,13 @@ class Player:
 
         return data
 
-    def save_csv(self,file_path=file_path):
+    def save_csv(self, file_path=file_path):
         try:
-            data = Player.load_csv(name=self.name)
+            data = Player.load_csv(all=True)
 
             fieldnames = ['name', 'health', 'strength', 'defense', 'speed', 'level', 'exp']
-            data = {
-                   "name": self.name,
+            info = {
+                   "name": self.name.lower(),
                    "health": self.health,
                    "strength": self.strength,
                    "defense": self.defense,
@@ -84,18 +86,27 @@ class Player:
                    "exp": self.exp
                 }
 
+            names = [character["name"] for character in data]
+            if self.name.lower() not in names:
+                    data.append(info)
+            else:
+                for i, character in enumerate(data):
+                    if character["name"] == self.name:
+                        data[i] = info
+
             with open(file_path, "w", newline="") as file:
                writer = csv.DictWriter(file, fieldnames=fieldnames)
 
                writer.writeheader()
-               writer.writerow(data)
+               writer.writerows(data)
+
         except FileNotFoundError:
             print("Invalid file path")
         except Exception as e:
-            print(f"Error saving file: {e}")
+            return
 
     def display_stat(self):
-        print(f"Name: {self.name}")
+        print(f"\nName: {self.name.title()}")
         print(f"Level: {self.level}")
         print(f"EXP: {self.exp}/100")
         print(f"Health: {self.health}")
@@ -103,7 +114,10 @@ class Player:
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
 
-    def gain_exp(self, exp: int):
+    def gain_exp(self, exp = 0, enemy_list=enemy_list):
+
+        if self.name.lower() in enemy_list:
+            return
         current_exp = self.exp + exp
         if current_exp >= 100:
             gained_lv = int(current_exp/100)
@@ -113,12 +127,20 @@ class Player:
             self.strength += (gained_lv*4)
         else:
             self.exp += exp
+
+        print(f"{self.name} just gained {exp} EXP!")
         self.save_csv()
 
     @staticmethod
-    def check_character(name="", enemy_list=enemy_list):
-        if name in enemy_list:
-            return False
+    def check_character(name="", enemy_list=enemy_list, check_enemy=True):
+        name = name.lower()
+        if check_enemy:
+            if name in enemy_list:
+                return True
+        else:
+            if name in enemy_list:
+                return False
+            
         data = Player.load_csv(name)
         if data:
             return True
@@ -132,12 +154,12 @@ class Player:
             return None
         else:
             print(f"Create Chracter name: {name}")
-            return Player(name)
+            return name
     
     @staticmethod
     def login_charcter(name: str):
         if Player.check_character(name):
-            return Player(name)
+            return name
         else:
             print(f"Chracter name: {name} doesn't exist\nPlease Create Character first")
             return None
