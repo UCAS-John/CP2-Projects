@@ -3,15 +3,14 @@ import os
 
 class Player:
 
-    file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv")
-    enemy_list = ["slime", "zombie", "skeleton"]
+    file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv") # Get file path base on chracter.py location
+    enemy_list = ["slime", "zombie", "skeleton"] # List of Default Enemy
 
     def __init__(self, name):
         
-        self._created = False
-
         data = Player.load_csv(name=name)
         
+        # Load chracter stat if  chracter already exists
         if data:
             self.name: str = data["name"]
             self.health: int = data["health"]
@@ -32,6 +31,8 @@ class Player:
 
         self.current_health = self.health        
 
+    # Load Character stat
+    # if all is est to True return list of dictionary of all character
     @staticmethod
     def load_csv(name = None, file_path=file_path, all=False):
         
@@ -71,6 +72,7 @@ class Player:
 
         return data
 
+    # save charcater stat to csv file
     def save_csv(self, file_path=file_path):
         try:
             data = Player.load_csv(all=True)
@@ -105,6 +107,7 @@ class Player:
         except Exception as e:
             return
 
+    # Display Character stat
     def display_stat(self):
         print(f"\nName: {self.name.title()}")
         print(f"Level: {self.level}")
@@ -114,6 +117,8 @@ class Player:
         print(f"Defense: {self.defense}")
         print(f"Speed: {self.speed}")
 
+    # Character gain exp
+    # If exp exceed 100 lv up by 1
     def gain_exp(self, exp = 0, enemy_list=enemy_list):
 
         if self.name.lower() in enemy_list:
@@ -131,6 +136,7 @@ class Player:
         print(f"{self.name} just gained {exp} EXP!")
         self.save_csv()
 
+    # Check if charcater exists if not exisits return false
     @staticmethod
     def check_character(name="", enemy_list=enemy_list, check_enemy=True):
         name = name.lower()
@@ -146,7 +152,9 @@ class Player:
             return True
         else:
             return False
-    
+
+    # Function to crate character 
+    # Return name 
     @staticmethod
     def create_character(name: str):
         if Player.check_character(name):
@@ -155,7 +163,9 @@ class Player:
         else:
             print(f"Create Chracter name: {name}")
             return name
-    
+
+    # Function to login into character
+    # Return name 
     @staticmethod
     def login_charcter(name: str):
         if Player.check_character(name):

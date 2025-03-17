@@ -4,16 +4,19 @@ import random
 def battle(character1: Player, character2: Player):
     print(f"\nBattle: {character1.name} vs {character2.name}")
 
+    # Calculate damage that would be dealt
     def calc_dmg(attacker: Player, defender: Player):
         damage:  float = attacker.strength - (defender.defense * 0.5)
         return damage
 
+    # Decrease health when chracter take damage
     def take_damage(receiver, damage):
         if receiver == 1:
             character1.current_health -= damage
         else:
             character2.current_health -= damage
 
+    # Calculate if character dodge the attack
     def dodge(receiver: Player, attacker: Player):
         if receiver.speed - attacker.speed <= 0:
             return False
@@ -23,6 +26,7 @@ def battle(character1: Player, character2: Player):
             else:
                 return False
     
+    # Increase Chracter Health
     def heal(character):
         if character == 1:
             character1.current_health += 10
@@ -31,12 +35,15 @@ def battle(character1: Player, character2: Player):
             
     skills = ['attack', 'heal']
 
+    # Get user input for which skill to use 
     def get_skill_choice():
+        # Display all skills possible to use
         for i, skill in enumerate(skills, start=1):
             print(f"{i}) {skill}")
 
         choice = input("Enter skill to use: ").strip()
 
+        # Check if input is valid
         if choice not in ['1', '2']:
             print("\nInvalid Skill Choice\n")
             get_skill_choice()
@@ -64,7 +71,7 @@ def battle(character1: Player, character2: Player):
         character1.gain_exp(130)
         return 1
     
-    choice = random.randint(1,2)
+    choice = random.randint(1,2) # Random enemy choice for heal or attack
     
     match choice:
         case 1:
