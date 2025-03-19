@@ -1,5 +1,7 @@
 import csv
 import os
+import matplotlib.pyplot as plt
+import pandas as pd 
 
 class Player:
 
@@ -13,6 +15,7 @@ class Player:
         # Load chracter stat if  chracter already exists
         if data:
             self.name: str = data["name"]
+            self.description: str = data["description"]
             self.health: int = data["health"]
             self.strength: int = data["strength"]
             self.defense: int = data["defense"]
