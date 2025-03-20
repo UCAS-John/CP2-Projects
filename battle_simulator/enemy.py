@@ -1,62 +1,50 @@
-import csv
-import os
-import matplotlib.pyplot as plt
-import pandas as pd 
-import faker
+from faker import Faker
+import random
 
 class Enemy:
 
-    file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "enemy.csv") # Get file path base on enemy.py location
-    enemy_list = ["slime", "zombie", "skeleton"] # List of Default Enemy
-
-    def __init__(self, name):
+    def __init__(self, name, description, health, strength, defense, speed, level):
         
-        data = Enemy.load_csv(name=name)
-        
-        self.name: str = data["name"]
-        self.description: str = data["description"]
-        self.health: int = data["health"]
-        self.strength: int = data["strength"]
-        self.defense: int = data["defense"]
-        self.speed: int = data["speed"]
-        self.level: int = data["level"]
+        self.name: str = name 
+        self.description: str = description
+        self.health: int = health
+        self.strength: int = strength
+        self.defense: int = defense
+        self.speed: int = speed
+        self.level: int = level
         
         self.current_health = self.health        
-
-    # Load Enemy Stat
-    # Return dataframe of selected enemy
-    @staticmethod
-    def load_csv(name = None, file_path=file_path):
-        
-        data = None
-        if name:
-            name = name.lower()
-
-        try:
-            df = pd.read_csv(file_path)
-            data = df.loc[df["name"] == name]
-        except FileNotFoundError:
-            print("Invalid file path")
-        except Exception as e:
-            print(f"Error loading file: {e}")
-
-        return data
     
     @staticmethod
     def gen_enemy(number = 0):
-        
-        # name,health,strength,defense,speed,level,exp
 
-        # slime,200,12,10,2,5,0
-        # zombie,150,16,6,3,5,0
-        # skeleton,120,18,6,5,5,0
+        fake = Faker('en_US') 
 
-        prebuilt_stat = [
+        enemies = [
             {"name": "", "description": "", "health": 200, "strength": 12, "defense": 10, "speed": 2, "level": 5},
-            {"name": "", "description": "", "health": 150, "strength": 16, "defense": 6, "speed": 2, "level": 5},
-            {"name": "", "description": "", "health": 200, "strength": 12, "defense": 10, "speed": 2, "level": 5},
+            {"name": "", "description": "", "health": 150, "strength": 16, "defense": 6, "speed": 3, "level": 5},
+            {"name": "", "description": "", "health": 120, "strength": 18, "defense": 6, "speed": 5, "level": 5},
             {"name": "", "description": "", "health": 200, "strength": 12, "defense": 10, "speed": 2, "level": 5},
             {"name": "", "description": "", "health": 200, "strength": 12, "defense": 10, "speed": 2, "level": 5},
         ]
 
-        pass
+        for enemy in enemies:
+            enemy["name"] = fake.name()
+            enemy["description"] = fake.paragraph()
+
+        print(enemies)
+
+        random_enemy = random.choice(enemies)
+        enemy = Enemy(
+            name=random_enemy["name"],
+            description=random_enemy["description"],
+            health=random_enemy["health"],
+            defense=random_enemy["defense"],
+            speed=random_enemy["speed"],
+            level=random_enemy["level"]
+        )
+
+        return enemy 
+
+if __name__ == "__main__":
+    Enemy.gen_enemy()

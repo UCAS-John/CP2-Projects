@@ -6,7 +6,6 @@ import pandas as pd
 class Player:
 
     file_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "character.csv") # Get file path base on chracter.py location
-    enemy_list = ["slime", "zombie", "skeleton"] # List of Default Enemy
 
     def __init__(self, name):
         
@@ -35,52 +34,29 @@ class Player:
         self.current_health = self.health        
 
     # Load Character stat
-    # if all is est to True return list of dictionary of all character
+    # if all is est to True return list of dataframe of all character
     @staticmethod
     def load_csv(name = None, file_path=file_path, all=False):
         
-        data = None
         if name:
             name = name.lower()
 
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"Error loading: {e}")
+           
         if all:
-            try:
-                data = []
-                with open(file_path, "r", newline="") as file:
-                    reader = csv.DictReader(file)
-                    for row in reader:
-                        if row.get("name", "").lower() == name:
-                            continue
-                        data.append(row)
-            except FileNotFoundError:
-                print("Invalid file path")
-            except Exception as e:
-                print(f"Error loading file: {e}")
+            return df 
         else:
-            try:
-                data = {}
-                with open(file_path, "r", newline="") as file:
-                    reader = csv.DictReader(file)
-                    for row in reader:
-                        if row.get("name", "") == name:
-                            data = row
-                for stat in data:
-                    if stat != 'name':
-                        data[stat] = int(data[stat])
-
-            except FileNotFoundError:
-                print("Invalid file path")
-            except Exception as e:
-                print(f"Error loading file: {e}")
-
-        return data
+            charcacter = df.loc[df["name"] == name] 
+            return charcacter
 
     # save charcater stat to csv file
     def save_csv(self, file_path=file_path):
         try:
             data = Player.load_csv(all=True)
 
-            fieldnames = ['name', 'health', 'strength', 'defense', 'speed', 'level', 'exp']
             info = {
                    "name": self.name.lower(),
                    "health": self.health,
@@ -91,19 +67,14 @@ class Player:
                    "exp": self.exp
                 }
 
-            names = [character["name"] for character in data]
+            names = data["name"].to_list()
+
             if self.name.lower() not in names:
-                    data.append(info)
+                    data.append([pd.Series(info)])
             else:
-                for i, character in enumerate(data):
-                    if character["name"] == self.name:
-                        data[i] = info
+                data.loc[data["name"] == self.name] = [pd.Series(info)]
 
-            with open(file_path, "w", newline="") as file:
-               writer = csv.DictWriter(file, fieldnames=fieldnames)
-
-               writer.writeheader()
-               writer.writerows(data)
+            data.to_csv(file_path)
 
         except FileNotFoundError:
             print("Invalid file path")
