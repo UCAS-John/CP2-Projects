@@ -1,4 +1,3 @@
-import csv
 import os
 import matplotlib.pyplot as plt
 import pandas as pd 
@@ -12,9 +11,8 @@ class Player:
         data = Player.load_csv(name=name)
         
         # Load chracter stat if  chracter already exists
-        if data:
+        if data is not None:
             self.name: str = data["name"]
-            self.description: str = data["description"]
             self.health: int = data["health"]
             self.strength: int = data["strength"]
             self.defense: int = data["defense"]
@@ -36,21 +34,24 @@ class Player:
     # Load Character stat
     # if all is est to True return list of dataframe of all character
     @staticmethod
-    def load_csv(name = None, file_path=file_path, all=False):
+    def load_csv(name="", file_path=file_path, all=False):
         
-        if name:
-            name = name.lower()
+        df = pd.DataFrame({})
 
-        try:
-            df = pd.read_csv(file_path)
-        except Exception as e:
-            print(f"Error loading: {e}")
+        df = pd.read_csv(filepath_or_buffer=file_path)
            
         if all:
             return df 
         else:
-            charcacter = df.loc[df["name"] == name] 
-            return charcacter
+            character = None
+            try:
+                character = df.loc[df["name"] == name] 
+            except KeyError:
+                character = None
+            except Exception as e:
+                print(f"Error character loading: {e}")
+        
+        return character
 
     # save charcater stat to csv file
     def save_csv(self, file_path=file_path):
@@ -76,27 +77,28 @@ class Player:
 
             data.to_csv(file_path)
 
-        except FileNotFoundError:
-            print("Invalid file path")
         except Exception as e:
-            return
+            print(f"Erorr saving character stat: {e}")
 
     # Display Character stat
     def display_stat(self):
-        print(f"\nName: {self.name.title()}")
-        print(f"Level: {self.level}")
-        print(f"EXP: {self.exp}/100")
-        print(f"Health: {self.health}")
-        print(f"Strength: {self.strength}") 
-        print(f"Defense: {self.defense}")
-        print(f"Speed: {self.speed}")
+        
+        data = Player.load_csv(name=self.name)
+        col: list = data.columns.values.tolist()
+        col.remove("name")
+
+        stat = data.loc[data["name"] == self.name].values.flatten().tolist()
+        stat.remove(self.name)
+
+        plt.figure(figsize=(9, 3))
+
+        plt.subplot(131)
+        plt.bar(col, stat)
 
     # Character gain exp
     # If exp exceed 100 lv up by 1
-    def gain_exp(self, exp = 0, enemy_list=enemy_list):
+    def gain_exp(self, exp = 0):
 
-        if self.name.lower() in enemy_list:
-            return
         current_exp = self.exp + exp
         if current_exp >= 100:
             gained_lv = int(current_exp/100)
@@ -112,14 +114,8 @@ class Player:
 
     # Check if charcater exists if not exisits return false
     @staticmethod
-    def check_character(name="", enemy_list=enemy_list, check_enemy=True):
+    def check_character(name=""):
         name = name.lower()
-        if check_enemy:
-            if name in enemy_list:
-                return True
-        else:
-            if name in enemy_list:
-                return False
             
         data = Player.load_csv(name)
         if data:
@@ -149,17 +145,5 @@ class Player:
             return None
 
 if __name__ == "__main__":
-    choice = input(">>>")
-    name = input("name: ")
-    # match choice:
-        #case '1':
-            # player = login_charcter(name)
-            # if not player:
-            #   exit()
-            # player.display_stat()
-        # case '2':
-            
-            # player = create_character(name)
-            # if not player:
-            #    exit()
-            #player.display_stat()
+    player = Player(name="john")
+    player.display_stat()
