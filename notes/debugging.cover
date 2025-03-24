@@ -1,0 +1,22 @@
+       # John Wangwang, Debugging notes
+       
+       # What is tracing?
+    1: def add(numeone, numtwo):
+    1:     return numeone + numtwo
+       
+    1: print(add(1,2))
+       #Basic Tracing command 
+           #python -m trace --trace "file_path"
+       
+    1: """
+           --trace (displays lines as executed)
+           --count (displays number of time executed)
+           --listfuncs (displays functions used in the program)
+           --trackcalls (display relatioships between functions)
+       """
+       
+       # What are some ways we can debug by tracing?
+       # How do you access the debugger in VS Code?
+       # What is testing?
+       # What are boundary conditions?
+       # How do you handle when users give strange inputs?
