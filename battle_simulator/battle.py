@@ -1,8 +1,9 @@
 from character import Player
+from enemy import Enemy
 import random
 
-def battle(character1: Player, character2: Player):
-    print(f"\nBattle: {character1.name} vs {character2.name}")
+def battle(character1: Player, enemy: Enemy):
+    print(f"\nBattle: {character1.name} vs {enemy.name}")
 
     # Calculate damage that would be dealt
     def calc_dmg(attacker: Player, defender: Player):
@@ -14,7 +15,7 @@ def battle(character1: Player, character2: Player):
         if receiver == 1:
             character1.current_health -= damage
         else:
-            character2.current_health -= damage
+            enemy.current_health -= damage
 
     # Calculate if character dodge the attack
     def dodge(receiver: Player, attacker: Player):
@@ -31,7 +32,7 @@ def battle(character1: Player, character2: Player):
         if character == 1:
             character1.current_health += 10
         else:
-            character2.current_health += 10
+            enemy.current_health += 10
             
     skills = ['attack', 'heal']
 
@@ -55,18 +56,18 @@ def battle(character1: Player, character2: Player):
     print("")
     match choice:
         case '1':
-            damage = calc_dmg(attacker=character1, defender=character2)
-            if dodge(attacker=character1, receiver=character2):
+            damage = calc_dmg(attacker=character1, defender=enemy)
+            if dodge(attacker=character1, receiver=enemy):
                 print(f"{character1.name} miss the attack!")
             else:
                 take_damage(receiver=2, damage=damage)
-                print(f"{character2.name} recieve {damage} DMG and left with {character2.current_health} HP")
+                print(f"{enemy.name} recieve {damage} DMG and left with {enemy.current_health} HP")
 
         case '2':
             print(f"{character1.name} healed up by 10")
             heal(character=1)
 
-    if character2.current_health <= 0:
+    if enemy.current_health <= 0:
         print(f"{character1.name} won the battle")
         character1.gain_exp(130)
         return 1
@@ -75,23 +76,22 @@ def battle(character1: Player, character2: Player):
     
     match choice:
         case 1:
-            damage = calc_dmg(attacker=character2, defender=character1)
-            if dodge(attacker=character2, receiver=character1):
-                print(f"{character2.name} miss the attack!")
+            damage = calc_dmg(attacker=enemy, defender=character1)
+            if dodge(attacker=enemy, receiver=character1):
+                print(f"{enemy.name} miss the attack!")
             else:
                 take_damage(receiver=1, damage=damage)
                 print(f"{character1.name} recieve {damage} DMG and left with {character1.current_health} HP")
 
         case 2:
-            print(f"{character2.name} healed up by 10")
+            print(f"{enemy.name} healed up by 10")
             heal(character=2)
 
     if character1.current_health <= 0:
-        print(f"{character2.name} won the battle")
-        character2.gain_exp(130)
+        print(f"{enemy.name} won the battle")
         return 2
         
-    battle(character1=character1, character2=character2)
+    battle(character1=character1, enemy=enemy)
         
 if __name__ == "__main__":
     attack = Player("John")

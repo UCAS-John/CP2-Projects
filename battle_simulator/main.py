@@ -27,11 +27,12 @@ import sys
 from character import Player
 from file import init_file
 from battle import battle
+from enemy import Enemy
 
 def main():
     # initialize file
     init_file()
-    
+
     print("Welcome to Battle Simulator")
     
     # Recursive get choice if choice is invalid
@@ -43,7 +44,8 @@ def main():
         else:
             print("\n1) Battle")
             print("2) Display Stat")
-            print("3) logout")
+            print("3) Display Analyzed Stat")
+            print("4) logout")
 
 
         choice = input(">>> ").strip()
@@ -83,6 +85,7 @@ def main():
 
     # Menu If Login
     def login():
+        enemy_ls = Enemy.gen_enemy()
         choice = get_choice(logout=False)
 
         if not player:
@@ -90,27 +93,32 @@ def main():
 
         # Display List of Enemy and Get Enemy to fight
         def get_enemy():
-            data = Player.load_csv(name=player.name, all=True)
             print("")
-            for i, enemy in enumerate(data, start=1):
-                print(f"{i}) {enemy["name"]}")
+            for i, enemy in enumerate(enemy_ls, start=1):
+                print(f"{i}) {enemy}")
 
-            enemy = input("Enter character to to fight (Enter name)\n>>> ").strip().lower()
+            enemy = input("Enter character to to fight (index)\n>>> ").strip()
 
-            if not Player.check_character(name=enemy, check_enemy=True):
+            if enemy not in ['1','2','3','4','5']:
                 print("Invalid Chracter to fight")
+                get_enemy()
+
+            try:
+                enemy = int(enemy)
+            except:
+                print("Must Enter integer")
                 get_enemy()
 
             return enemy
         
         #function to start the battle
         def fight(player=player, enemy=None):
-            battle(character1=player, character2=enemy)
+            battle(character1=player, enemy=enemy)
         
         match choice:
             case '1':
                 enemy = get_enemy()
-                enemy_class = Player(name=enemy)
+                enemy_class = enemy_ls[int(enemy)]
 
                 fight(player=player, enemy=enemy_class)
 
@@ -121,6 +129,10 @@ def main():
                 login()
 
             case '3':
+                player.display_analyzed_stats()
+                login()
+
+            case '4':
                 main()
 
     login()
