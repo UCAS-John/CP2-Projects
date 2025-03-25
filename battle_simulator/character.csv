@@ -1,6 +1,6 @@
-name,health,strength,defense,speed,level,exp
-slime,200,12,10,2,5,0
-zombie,150,16,6,3,5,0
-skeleton,120,18,6,5,5,0
-john,114,24,7,5,2,30
-lala,100,20,7,5,1,0
+,name,health,strength,defense,speed,level,exp
+0,slime,200,12,10,2,5,0
+1,zombie,150,16,6,3,5,0
+2,skeleton,120,18,6,5,5,0
+3,john,100,20,7,5,1,0
+4,lala,100,20,7,5,1,0
