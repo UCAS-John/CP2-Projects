@@ -1,0 +1,28 @@
+Country,Coin Name,Value
+USA,Penny,0.01
+USA,Nickel,0.05
+USA,Dime,0.10
+USA,Quarter,0.25
+USA,Half Dollar,0.50
+USA,Dollar Coin,1.00
+UK,Penny,0.01
+UK,Two Pence,0.02
+UK,Five Pence,0.05
+UK,Ten Pence,0.10
+UK,Twenty Pence,0.20
+UK,Fifty Pence,0.50
+UK,One Pound,1.00
+UK,Two Pounds,2.00
+Thailand,Satang,0.01
+Thailand,25 Satang,0.25
+Thailand,50 Satang,0.50
+Thailand,One Baht,1.00
+Thailand,Two Baht,2.00
+Thailand,Five Baht,5.00
+Thailand,Ten Baht,10.00
+Japan,One Yen,1
+Japan,Five Yen,5
+Japan,Ten Yen,10
+Japan,Fifty Yen,50
+Japan,One Hundred Yen,100
+Japan,Five Hundred Yen,500
