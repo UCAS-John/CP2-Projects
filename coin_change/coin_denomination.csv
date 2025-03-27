@@ -1,10 +1,8 @@
-Country,Coin Name,Value
+Country,Name,Value
 USA,Penny,0.01
 USA,Nickel,0.05
 USA,Dime,0.10
 USA,Quarter,0.25
-USA,Half Dollar,0.50
-USA,Dollar Coin,1.00
 UK,Penny,0.01
 UK,Two Pence,0.02
 UK,Five Pence,0.05
