@@ -1,16 +1,33 @@
-import pandas as pd 
-from typing import Literal
-import os
+import pandas as pd
+from tkinter import messagebox
 
-_COUNTRIES = Literal["USA", "Thailand", "Japan"]
-
-file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coin_denomination.csv")
-
-def load_coin_deno(country: _COUNTRIES):
-    df = pd.read_csv(file_path)
-    return df.loc[df["Country"] == country]
-
-if __name__ == "__main__":
-    df = load_coin_deno(country="USA")
-
-    print(df.to_string)
+def load_coin_denominations(filename='coins.csv'):
+    """Load and parse coin denominations from CSV file"""
+    
+    def read_csv_file(file_path):
+        """Helper function to read CSV file"""
+        try:
+            return pd.read_csv(file_path)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"File {file_path} not found!")
+        except Exception as e:
+            raise Exception(f"Error reading file: {str(e)}")
+    
+    def parse_coin_data(df):
+        """Helper function to parse DataFrame into coin dictionary"""
+        try:
+            coin_dict = {}
+            for country in df['Country'].unique():
+                country_coins = df[df['Country'] == country]
+                coin_dict[country] = {row['Name']: float(row['Value']) 
+                                    for _, row in country_coins.iterrows()}
+            return coin_dict
+        except Exception as e:
+            raise Exception(f"Error parsing coin data: {str(e)}")
+    
+    try:
+        df = read_csv_file(filename)
+        return parse_coin_data(df)
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+        return {}
