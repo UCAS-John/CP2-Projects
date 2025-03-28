@@ -1,33 +1,33 @@
-import pandas as pd
+import csv
 from tkinter import messagebox
+import os
 
-def load_coin_denominations(filename='coins.csv'):
-    """Load and parse coin denominations from CSV file"""
+# Load coin denominations
+def load_coin_denominations(filename=os.path.join(os.path.dirname(os.path.abspath(__file__)),'coins.csv')):
     
-    def read_csv_file(file_path):
-        """Helper function to read CSV file"""
-        try:
-            return pd.read_csv(file_path)
-        except FileNotFoundError:
-            raise FileNotFoundError(f"File {file_path} not found!")
-        except Exception as e:
-            raise Exception(f"Error reading file: {str(e)}")
-    
-    def parse_coin_data(df):
-        """Helper function to parse DataFrame into coin dictionary"""
+    def to_dict(rows):
+        # change csv rows to dicitonary
         try:
             coin_dict = {}
-            for country in df['Country'].unique():
-                country_coins = df[df['Country'] == country]
-                coin_dict[country] = {row['Name']: float(row['Value']) 
-                                    for _, row in country_coins.iterrows()}
+            for row in rows:
+                country = row[0]
+                name = row[1]
+                value = float(row[2])
+                if country not in coin_dict:
+                    coin_dict[country] = {}
+                coin_dict[country][name] = value
             return coin_dict
         except Exception as e:
-            raise Exception(f"Error parsing coin data: {str(e)}")
+            raise Exception(f"Error changing coin data: {str(e)}")
     
     try:
-        df = read_csv_file(filename)
-        return parse_coin_data(df)
+        with open(filename, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  
+            rows = list(reader)
+        return to_dict(rows)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File {filename} not found!")
     except Exception as e:
         messagebox.showerror("Error", str(e))
         return {}

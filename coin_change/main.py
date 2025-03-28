@@ -3,11 +3,12 @@ from tkinter import messagebox, ttk
 
 from file import load_coin_denominations
 from denomination import solve_coin_change
+
 class CoinChangeGUI:
     def __init__(self, root, coin_data):
         self.root = root
         self.root.title("Coin Change Solver")
-        self.root.geometry("400x300")
+        self.root.geometry("800x600")
         self.coin_data = coin_data
         
         # GUI Setup
@@ -20,16 +21,33 @@ class CoinChangeGUI:
         self.country_combo.pack(pady=5)
         
         Label(root, text="Enter Target Amount:").pack()
-        self.target_entry = Entry(root)
+        
+        # Validation function for numerical input
+        validate_command = root.register(self.validate_decimal_input)
+        self.target_entry = Entry(root, validate="key", validatecommand=(validate_command, '%P'))
         self.target_entry.pack(pady=5)
         
         Button(root, text="Calculate", command=self.calculate).pack(pady=10)
         
-        self.result_text = Text(root, height=5, width=40)
+        self.result_text = Text(root, height=15, width=70)
         self.result_text.pack(pady=10)
     
+    # validate decimal input
+    def validate_decimal_input(self, input_value):
+        if input_value == "": # Allow empty input
+            return True
+        try:
+            # Check if the input is a valid float
+            value = float(input_value)
+            # Check if it has at most 2 decimal places
+            if '.' in input_value and len(input_value.split('.')[-1]) > 2:
+                return False
+            return True
+        except ValueError:
+            return False
+    
+    # validate user input
     def validate_input(self, country, target_str):
-        """Helper function to validate user input"""
         if not country:
             raise ValueError("Please select a country!")
         if not target_str:
@@ -44,8 +62,8 @@ class CoinChangeGUI:
                 raise
             raise ValueError("Please enter a valid number!")
     
+    # calculate coin change
     def calculate(self):
-        """Handle calculation button click"""
         self.result_text.delete(1.0, END)
         
         try:
@@ -62,9 +80,8 @@ class CoinChangeGUI:
             messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
 
 def main():
-    """Main function to run the program"""
     def initialize_gui():
-        """Inner function to set up GUI"""
+        # Setup GUI
         root = Tk()
         coin_data = load_coin_denominations()
         if not coin_data:
