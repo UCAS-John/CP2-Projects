@@ -23,7 +23,8 @@ def load_coin_denominations(filename=os.path.join(os.path.dirname(os.path.abspat
     try:
         with open(filename, 'r') as file:
             reader = csv.reader(file)
-            next(reader)  
+            next(reader)  # Skip header row
+            # Read the rest of the rows into a list
             rows = list(reader)
         return to_dict(rows)
     except FileNotFoundError:

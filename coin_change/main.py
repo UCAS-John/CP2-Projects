@@ -84,7 +84,7 @@ def main():
         # Setup GUI
         root = Tk()
         coin_data = load_coin_denominations()
-        if not coin_data:
+        if not coin_data: # If coin data is empty, show error and exit
             messagebox.showerror("Error", "Failed to load coin data. Exiting...")
             root.destroy()
             return None
