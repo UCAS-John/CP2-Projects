@@ -23,6 +23,10 @@ pip install numpy
 ```sh
 pip install matplotlib
 ```
++ faker
+```sh
+pip install faker
+```
 
 ## Current Features 
 + Character stats analytic
