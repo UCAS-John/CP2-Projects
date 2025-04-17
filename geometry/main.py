@@ -1,4 +1,6 @@
-from shape import *
+from circle import Circle
+from rectangle import Rectangle, Square
+from triangle import Triangle
 
 def main():
     shapes = []
