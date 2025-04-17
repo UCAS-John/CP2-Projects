@@ -133,18 +133,6 @@ class Kite(Rectangle):
     def explain_formulas():
         return "Area = 0.5 * length * width, Perimeter = 2 * (length + width)"
 
-class Square(Rectangle):
-    def __init__(self, side):
-        super().__init__(side, side)
-
-    def display_info(self):
-        return f"Square: Side = {self.length}, Area = {self.area()}, Perimeter = {self.perimeter()}"
-
-    @staticmethod
-    def explain_formulas():
-        return "Area = side^2, Perimeter = 4 * side"
-
-
 class Triangle(Shape):
     def __init__(self, base, height, side1, side2, side3):
         if base <= 0 or height <= 0 or side1 <= 0 or side2 <= 0 or side3 <= 0:
