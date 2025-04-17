@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.lines as lines
 
 def draw_circle(radius):
     fig, ax = plt.subplots()
@@ -27,11 +28,27 @@ def draw_rectangle(length, width):
 def draw_square(side):
     draw_rectangle(side, side)  # A square is a special case of a rectangle
 
+def draw_triangle(base, height):
+    fig, ax = plt.subplots()
+    # Define the three vertices of the triangle
+    vertices = [(-base / 2, 0), (base / 2, 0), (0, height)]
+    triangle = lines.Polygon(vertices, closed=True, edgecolor='red', facecolor='pink', linewidth=2)
+    ax.add_patch(triangle)
+    ax.set_xlim(-base, base)
+    ax.set_ylim(0, height * 1.5)
+    ax.set_aspect('equal', adjustable='datalim')
+    # Add labels for base and height
+    ax.annotate(f"Base = {base}", xy=(0, -0.1), fontsize=10, ha='center')
+    ax.annotate(f"Height = {height}", xy=(-base / 2 - 0.2, height / 2), fontsize=10, rotation=90, va='center')
+    plt.title("Triangle")
+    plt.show()
+
 if __name__ == "__main__":
     print("Shape Visualization")
     print("1. Draw Circle")
     print("2. Draw Rectangle")
     print("3. Draw Square")
+    print("4. Draw Triangle")
     choice = input("Enter your choice: ")
 
     try:
@@ -45,6 +62,10 @@ if __name__ == "__main__":
         elif choice == "3":
             side = float(input("Enter side length: "))
             draw_square(side)
+        elif choice == "4":
+            base = float(input("Enter base: "))
+            height = float(input("Enter height: "))
+            draw_triangle(base, height)
         else:
             print("Invalid choice.")
     except ValueError as e:
