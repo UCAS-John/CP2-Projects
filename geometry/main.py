@@ -1,6 +1,7 @@
 from circle import Circle
 from rectangle import Rectangle, Square
 from triangle import Triangle
+from visualization import ShapeVisualizer
 
 def main():
     shapes = []
