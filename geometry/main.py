@@ -29,12 +29,10 @@ def main():
                     side = float(input("Enter side length: "))
                     shapes.append(Square(side))
                 case "4":
-                    base = float(input("Enter base: "))
-                    height = float(input("Enter height: "))
                     side1 = float(input("Enter side1: "))
                     side2 = float(input("Enter side2: "))
                     side3 = float(input("Enter side3: "))
-                    shapes.append(Triangle(base, height, side1, side2, side3))
+                    shapes.append(Triangle(side1, side2, side3))
                 case "5":
                     print("\nShapes in the list:")
                     for shape in shapes:
