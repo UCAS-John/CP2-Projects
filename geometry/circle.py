@@ -17,17 +17,23 @@ class Circle:
     def display_info(self):
         return f"Circle: Radius = {self.radius}, Area = {self.area()}, Perimeter = {self.perimeter()}"
     
-    def draw_circle(radius):
+    def draw_circle(self):
         fig, ax = plt.subplots()
-        circle = patches.Circle((0, 0), radius, edgecolor='blue', facecolor='lightblue', linewidth=2)
+        circle = patches.Circle((0, 0), self.radius, edgecolor='blue', facecolor='lightblue', linewidth=2)
         ax.add_patch(circle)
-        ax.set_xlim(-radius * 1.5, radius * 1.5)
-        ax.set_ylim(-radius * 1.5, radius * 1.5)
+        ax.set_xlim(-self.radius * 1.5, self.radius * 1.5)
+        ax.set_ylim(-self.radius * 1.5, self.radius * 1.5)
         ax.set_aspect('equal', adjustable='datalim')
-        ax.annotate(f"Radius = {radius}", xy=(0, radius / 2), fontsize=10, ha='center')
+        ax.annotate(f"Radius = {self.radius}", xy=(0, self.radius / 2), fontsize=10, ha='center')
         plt.title("Circle")
         plt.show()
 
     @staticmethod
     def explain_formulas():
         return "Area = π * radius^2, Perimeter = 2 * π * radius"
+    
+if __name__ == "__main__":
+    circle = Circle(5)
+    print(circle.display_info())
+    circle.draw_circle()
+    print(Circle.explain_formulas())
