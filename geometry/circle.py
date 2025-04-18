@@ -14,8 +14,11 @@ class Circle:
     def perimeter(self):
         return 2 * math.pi * self.radius
 
-    def display_info(self):
-        return f"Circle: Radius = {self.radius}, Area = {self.area()}, Perimeter = {self.perimeter()}"
+    def display_info(self, nocalc=False):
+        if nocalc:
+            return f"Circle: Radius = {self.radius}"
+        else:
+            return f"Circle: Radius = {self.radius}, Area = {self.area()}, Perimeter = {self.perimeter()}"
     
     def draw_circle(self):
         fig, ax = plt.subplots()

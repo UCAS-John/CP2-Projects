@@ -14,8 +14,11 @@ class Rectangle:
     def perimeter(self):
         return 2 * (self.length + self.width)
 
-    def display_info(self):
-        return f"Rectangle: Length = {self.length}, Width = {self.width}, Area = {self.area()}, Perimeter = {self.perimeter()}"
+    def display_info(self, nocalc=False):
+        if nocalc:
+            return f"Rectangle: Length = {self.length}, Width = {self.width}"
+        else:
+            return f"Rectangle: Length = {self.length}, Width = {self.width}, Area = {self.area()}, Perimeter = {self.perimeter()}"
     
     def draw_rectangle(self):
         fig, ax = plt.subplots()
@@ -38,8 +41,11 @@ class Square(Rectangle):
     def __init__(self, side):
         super().__init__(side, side)
 
-    def display_info(self):
-        return f"Square: Side = {self.length}, Area = {self.area()}, Perimeter = {self.perimeter()}"
+    def display_info(self, nocalc=False):
+        if nocalc:
+            return f"Square: Side = {self.length}"
+        else:
+            return f"Square: Side = {self.length}, Area = {self.area()}, Perimeter = {self.perimeter()}"
 
     @staticmethod
     def explain_formulas():
