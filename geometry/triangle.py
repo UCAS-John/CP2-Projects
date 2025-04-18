@@ -9,21 +9,25 @@ class Triangle:
         self.side2 = side2
         self.side3 = side3
 
+    # Calculate area using Heron's formula
     def area(self):
-        # Using Heron's formula to calculate the area
         s = (self.side1 + self.side2 + self.side3) / 2
         area = (s * (s - self.side1) * (s - self.side2) * (s - self.side3)) ** 0.5
         return area
 
+    # Calculate perimeter
     def perimeter(self):
         return self.side1 + self.side2 + self.side3
 
+    # Display information about the triangle if nocalc is False
+    # Else display only the dimensions
     def display_info(self, nocalc=False):
         if nocalc:
             return f"Triangle: Side1 = {self.side1}, Side2 = {self.side2}, Side3 = {self.side3}"
         else:
             return f"Triangle: Side1 = {self.side1}, Side2 = {self.side2}, Side3 = {self.side3}, Area = {self.area()}, Perimeter = {self.perimeter()}"
     
+    # Draw the triangle using matplotlib
     def draw_triangle(self):
         fig, ax = plt.subplots()
 
@@ -59,6 +63,7 @@ class Triangle:
         plt.title("Triangle")
         plt.show()
 
+    # Static method to explain the formulas for area and perimeter of Triangle
     @staticmethod
     def explain_formulas():
         return "Area = 0.5 * base * height, Perimeter = side1 + side2 + side3"

@@ -18,25 +18,31 @@ def main():
 
         try:
             match choice:
+                # Create a Circle
                 case '1':
                     radius = float(input("Enter radius: "))
                     shapes.append(Circle(radius))
+                # Create a Rectangle
                 case "2":
                     length = float(input("Enter length: "))
                     width = float(input("Enter width: "))
                     shapes.append(Rectangle(length, width))
+                # Create a Square
                 case "3":
                     side = float(input("Enter side length: "))
                     shapes.append(Square(side))
+                # Create a Triangle
                 case "4":
                     side1 = float(input("Enter side1: "))
                     side2 = float(input("Enter side2: "))
                     side3 = float(input("Enter side3: "))
                     shapes.append(Triangle(side1, side2, side3))
+                # Display all shapes
                 case "5":
                     print("\nShapes in the list:")
                     for shape in shapes:
                         print(shape.display_info())
+                # Visualize shapes
                 case "6":
                     print("\nShapes in the list:")
                     for i, shape in enumerate(shapes, start=1):
@@ -55,6 +61,8 @@ def main():
                         shape.draw_triangle()
                     else:
                         print("Shape not supported for visualization.")
+
+                # Compare shapes by selecting area or perimeter
                 case "7":
                     if len(shapes) < 2:
                         print("At least two shapes are required for comparison.")
@@ -62,21 +70,28 @@ def main():
                     print("1. Compare Areas")
                     print("2. Compare Perimeters")
                     compare_choice = input("Enter your choice: ")
+
+                    if compare_choice not in ["1", "2"]:
+                        print("Invalid choice.")
+                        continue
+                    
+                    # Sort shapes based on the selected attribute
                     if compare_choice == "1":
                         shapes.sort(key=lambda s: s.area())
                         print("\nShapes sorted by area:")
                     elif compare_choice == "2":
                         shapes.sort(key=lambda s: s.perimeter())
                         print("\nShapes sorted by perimeter:")
+
                     for shape in shapes:
                         print(shape.display_info())
+
                 case "8":
                     break
                 case _:
                     print("Invalid choice. Please try again.")
         except ValueError as e:
             print(f"Error: {e}")
-
 
 if __name__ == "__main__":
     main()
