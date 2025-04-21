@@ -43,7 +43,11 @@ class Triangle:
         # Vertex C is calculated using the law of cosines
         # cos C = (a^2 + b^2 - c^2) / (2ab)
         angle_C = math.acos((self.side1**2 + self.side2**2 - self.side3**2) / (2 * self.side1 * self.side2))
-        # Vertex C is at (side2 * cos(angle_C), side2 * sin(angle_C))
+        
+        # Polar Coordinates to Cartesian coordinates 
+        # x = r * cos(theta)
+        # y = r * sin(theta)
+        # r is side 2 in this case and theta is angle C
         C = (self.side2 * math.cos(angle_C), self.side2 * math.sin(angle_C))
 
         # Create the triangle using the vertices
