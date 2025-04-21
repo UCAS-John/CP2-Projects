@@ -1,6 +1,7 @@
 from circle import Circle
 from rectangle import Rectangle, Square
 from triangle import Triangle
+import sys
 
 def main():
     shapes = []
@@ -87,7 +88,7 @@ def main():
                         print(shape.display_info())
 
                 case "8":
-                    break
+                    sys.exit(0)
                 case _:
                     print("Invalid choice. Please try again.")
         except ValueError as e:
