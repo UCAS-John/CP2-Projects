@@ -1,3 +1,4 @@
+import math
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
@@ -32,15 +33,18 @@ class Triangle:
         fig, ax = plt.subplots()
 
         # Define the three vertices of the triangle using side lengths
+        
         # Vertex A is at (0, 0)
         A = (0, 0)
+
         # Vertex B is at (side1, 0) (horizontal distance)
         B = (self.side1, 0)
+
         # Vertex C is calculated using the law of cosines
-        # Calculate the x and y coordinates of C
-        cos_angle = (self.side1**2 + self.side2**2 - self.side3**2) / (2 * self.side1 * self.side2)
-        sin_angle = (1 - cos_angle**2)**0.5  # sin^2(theta) + cos^2(theta) = 1
-        C = (self.side2 * cos_angle, self.side2 * sin_angle)
+        # cos C = (a^2 + b^2 - c^2) / (2ab)
+        angle_C = math.acos((self.side1**2 + self.side2**2 - self.side3**2) / (2 * self.side1 * self.side2))
+        # Vertex C is at (side2 * cos(angle_C), side2 * sin(angle_C))
+        C = (self.side2 * math.cos(angle_C), self.side2 * math.sin(angle_C))
 
         # Create the triangle using the vertices
         vertices = [A, B, C]

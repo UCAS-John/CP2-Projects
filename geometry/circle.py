@@ -27,7 +27,9 @@ class Circle:
     # Draw the circle using matplotlib
     def draw_circle(self):
         fig, ax = plt.subplots()
-        circle = patches.Circle((0, 0), self.radius, edgecolor='blue', facecolor='lightblue', linewidth=2) # Create a circle patch
+        
+        # Create a circle patch
+        circle = patches.Circle((0, 0), self.radius, edgecolor='blue', facecolor='lightblue', linewidth=2) 
         ax.add_patch(circle)
 
         # Set plot limits to fit the circle
